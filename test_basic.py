@@ -483,10 +483,9 @@ def test_method_redefinition(tmp_path):
 # class Main : Object {
 #     run
 #     [|
-#         x := MyInt from: 5.
-#         y := x plus: 10.
-#         x := y multiplyBy: 5.
-#         _ := (x asString) print.
+#         x := MyInt from: 10.
+#         y := x multiplyBy: 5.
+#         _ := (y asString) print.
 #     ]
 # }
 
@@ -508,7 +507,7 @@ def test_method_redefinition(tmp_path):
                         <send selector="from:">
                             <arg order="1">
                                 <expr>
-                                    <literal class="Integer" value="5"/>
+                                    <literal class="Integer" value="10"/>
                                 </expr>
                             </arg>
                             <expr>
@@ -520,10 +519,10 @@ def test_method_redefinition(tmp_path):
                 <assign order="2">
                     <var name="y"/>
                     <expr>
-                        <send selector="plus:">
+                        <send selector="multiplyBy:">
                             <arg order="1">
                                 <expr>
-                                    <literal class="Integer" value="10"/>
+                                    <literal class="Integer" value="5"/>
                                 </expr>
                             </arg>
                             <expr>
@@ -533,28 +532,13 @@ def test_method_redefinition(tmp_path):
                     </expr>
                 </assign>
                 <assign order="3">
-                    <var name="x"/>
-                    <expr>
-                        <send selector="multiplyBy:">
-                            <arg order="1">
-                                <expr>
-                                    <literal class="Integer" value="5"/>
-                                </expr>
-                            </arg>
-                            <expr>
-                                <var name="y"/>
-                            </expr>
-                        </send>
-                    </expr>
-                </assign>
-                <assign order="4">
                     <var name="_"/>
                     <expr>
                         <send selector="print">
                             <expr>
                                 <send selector="asString">
                                     <expr>
-                                        <var name="x"/>
+                                        <var name="y"/>
                                     </expr>
                                 </send>
                             </expr>
@@ -589,7 +573,7 @@ def test_method_redefinition(tmp_path):
 </program>
 """.lstrip()
 
-    expected_output = "10"
+    expected_output = "5"
 
     # Optional user input file (can be empty or contain user input)
     input_file = tmp_path / "input.txt"

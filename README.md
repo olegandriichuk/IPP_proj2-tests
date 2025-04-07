@@ -1,11 +1,11 @@
-# IPP project 1 tests
+# IPP project 2 tests
 ## Usage:
 ```
 pytest
 ```
 ## Download:
 ```
-git clone git@github.com:Marek324/IPP-1-tests.git tests
+git clone git@github.com:Kubikuli/tests2.git tests
 ```
 ## Setup:
 ```
@@ -19,5 +19,5 @@ pip install -r tests/requirements.txt # install required packages
 git pull # in tests directory
 ```
 ## Notes:
-Tag or DM me if you see any issues. (@marek3k)
+Tag or DM me if you see any issues. (@Kubikuli)
 If you'd like to contribute to tests, create a pull request.

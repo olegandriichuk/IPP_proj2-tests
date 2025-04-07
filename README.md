@@ -5,6 +5,7 @@ pytest
 ```
 ## Download:
 ```
+# Download into ipp-core, NOT student/
 git clone git@github.com:Kubikuli/tests2.git tests
 ```
 ## Setup:

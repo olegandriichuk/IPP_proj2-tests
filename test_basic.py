@@ -601,6 +601,656 @@ def test_method_redefinition(tmp_path):
 
 
 
+def test_factorial(tmp_path):
+# class Factorial : Integer {
+#     factorial
+#         [| 
+#         r := (self equalTo: 0) ifTrue: [|r := Factorial from: 1.]
+#         ifFalse: [|r := self multiplyBy:
+#         (( Factorial from:(self plus: -1)) factorial) . ].
+#     ]
+# }
+# class Main : Object {
+#     run
+#     [| 
+#         x := Factorial from: (( String read) asInteger). 
+#         x := ((x factorial) asString) print. 
+#     ]
+# }
+    input_text = """
+<?xml version="1.0" encoding="UTF-8"?>
+<program language="SOL25">
+    <class name="Factorial" parent="Integer">
+        <method selector="factorial">
+            <block arity="0">
+                <assign order="1">
+                    <var name="r"/>
+                    <expr>
+                        <send selector="ifTrue:ifFalse:">
+                            <arg order="1">
+                                <expr>
+                                    <block arity="0">
+                                        <assign order="1">
+                                            <var name="r"/>
+                                            <expr>
+                                                <send selector="from:">
+                                                    <arg order="1">
+                                                        <expr>
+                                                            <literal class="Integer" value="1"/>
+                                                        </expr>
+                                                    </arg>
+                                                    <expr>
+                                                        <literal class="class" value="Factorial"/>
+                                                    </expr>
+                                                </send>
+                                            </expr>
+                                        </assign>
+                                    </block>
+                                </expr>
+                            </arg>
+                            <arg order="2">
+                                <expr>
+                                    <block arity="0">
+                                        <assign order="1">
+                                            <var name="r"/>
+                                            <expr>
+                                                <send selector="multiplyBy:">
+                                                    <arg order="1">
+                                                        <expr>
+                                                            <send selector="factorial">
+                                                                <expr>
+                                                                    <send selector="from:">
+                                                                        <arg order="1">
+                                                                            <expr>
+                                                                                <send selector="plus:">
+                                                                                    <arg order="1">
+                                                                                        <expr>
+                                                                                            <literal class="Integer" value="-1"/>
+                                                                                        </expr>
+                                                                                    </arg>
+                                                                                    <expr>
+                                                                                        <var name="self"/>
+                                                                                    </expr>
+                                                                                </send>
+                                                                            </expr>
+                                                                        </arg>
+                                                                        <expr>
+                                                                            <literal class="class" value="Factorial"/>
+                                                                        </expr>
+                                                                    </send>
+                                                                </expr>
+                                                            </send>
+                                                        </expr>
+                                                    </arg>
+                                                    <expr>
+                                                        <var name="self"/>
+                                                    </expr>
+                                                </send>
+                                            </expr>
+                                        </assign>
+                                    </block>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <send selector="equalTo:">
+                                    <arg order="1">
+                                        <expr>
+                                            <literal class="Integer" value="0"/>
+                                        </expr>
+                                    </arg>
+                                    <expr>
+                                        <var name="self"/>
+                                    </expr>
+                                </send>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+    <class name="Main" parent="Object">
+        <method selector="run">
+            <block arity="0">
+                <assign order="1">
+                    <var name="x"/>
+                    <expr>
+                        <send selector="from:">
+                            <arg order="1">
+                                <expr>
+                                    <send selector="asInteger">
+                                        <expr>
+                                            <send selector="read">
+                                                <expr>
+                                                    <literal class="class" value="String"/>
+                                                </expr>
+                                            </send>
+                                        </expr>
+                                    </send>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <literal class="class" value="Factorial"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="2">
+                    <var name="x"/>
+                    <expr>
+                        <send selector="print">
+                            <expr>
+                                <send selector="asString">
+                                    <expr>
+                                        <send selector="factorial">
+                                            <expr>
+                                                <var name="x"/>
+                                            </expr>
+                                        </send>
+                                    </expr>
+                                </send>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+</program>
+""".lstrip()
+
+    expected_output = "120"
+
+    # Optional user input file (can be empty or contain user input)
+    input_file = tmp_path / "input.txt"
+    input_file.write_text("5")  # Empty for this test
+
+    run_test(str(input_file), input_text, expected_output)
+
+
+def test_if_then(tmp_path):
+# class Main : Object {
+#     run
+#     [ |
+#         x := MyInt from: 3.
+#         x := ((x condition) asString) print.
+#     ]
+# }
+
+# class MyInt : Integer{
+#     condition
+#     [|
+#         _ := (self greaterThan: 0)
+#         ifTrue: [|u := self plus: 2.]
+#         ifFalse: [|u := self minus: 2.].
+#     ]
+# }
+    input_text = """
+<?xml version="1.0" encoding="UTF-8"?>
+<program language="SOL25" description="&lt;- definice metody - bezparametrický selektor run">
+    <class name="Main" parent="Object">
+        <method selector="run">
+            <block arity="0">
+                <assign order="1">
+                    <var name="x"/>
+                    <expr>
+                        <send selector="from:">
+                            <arg order="1">
+                                <expr>
+                                    <literal class="Integer" value="3"/>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <literal class="class" value="MyInt"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="2">
+                    <var name="x"/>
+                    <expr>
+                        <send selector="print">
+                            <expr>
+                                <send selector="asString">
+                                    <expr>
+                                        <send selector="condition">
+                                            <expr>
+                                                <var name="x"/>
+                                            </expr>
+                                        </send>
+                                    </expr>
+                                </send>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+    <class name="MyInt" parent="Integer">
+        <method selector="condition">
+            <block arity="0">
+                <assign order="1">
+                    <var name="_"/>
+                    <expr>
+                        <send selector="ifTrue:ifFalse:">
+                            <arg order="1">
+                                <expr>
+                                    <block arity="0">
+                                        <assign order="1">
+                                            <var name="u"/>
+                                            <expr>
+                                                <send selector="plus:">
+                                                    <arg order="1">
+                                                        <expr>
+                                                            <literal class="Integer" value="2"/>
+                                                        </expr>
+                                                    </arg>
+                                                    <expr>
+                                                        <var name="self"/>
+                                                    </expr>
+                                                </send>
+                                            </expr>
+                                        </assign>
+                                    </block>
+                                </expr>
+                            </arg>
+                            <arg order="2">
+                                <expr>
+                                    <block arity="0">
+                                        <assign order="1">
+                                            <var name="u"/>
+                                            <expr>
+                                                <send selector="minus:">
+                                                    <arg order="1">
+                                                        <expr>
+                                                            <literal class="Integer" value="2"/>
+                                                        </expr>
+                                                    </arg>
+                                                    <expr>
+                                                        <var name="self"/>
+                                                    </expr>
+                                                </send>
+                                            </expr>
+                                        </assign>
+                                    </block>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <send selector="greaterThan:">
+                                    <arg order="1">
+                                        <expr>
+                                            <literal class="Integer" value="0"/>
+                                        </expr>
+                                    </arg>
+                                    <expr>
+                                        <var name="self"/>
+                                    </expr>
+                                </send>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+</program>
+""".lstrip()
+
+    expected_output = "5"
+
+    # Optional user input file (can be empty or contain user input)
+    input_file = tmp_path / "input.txt"
+    input_file.write_text("")  # Empty for this test
+
+    run_test(str(input_file), input_text, expected_output)
+
+
+def test_if_else(tmp_path):
+# class Main : Object {
+#     run "<- definice metody - bezparametrický selektor run"
+#     [ |
+#         x := MyInt from: 3.
+#         x := ((x condition) asString) print.
+#     ]
+# }
+
+# class MyInt : Integer{
+#     condition
+#     [|
+#         _ := (self greaterThan: 5)
+#         ifTrue: [|u := self plus: 2.]
+#         ifFalse: [|u := self minus: 2.].
+#     ]
+# }
+    input_text = """
+<?xml version="1.0" encoding="UTF-8"?>
+<program language="SOL25" description="&lt;- definice metody - bezparametrický selektor run">
+    <class name="Main" parent="Object">
+        <method selector="run">
+            <block arity="0">
+                <assign order="1">
+                    <var name="x"/>
+                    <expr>
+                        <send selector="from:">
+                            <arg order="1">
+                                <expr>
+                                    <literal class="Integer" value="3"/>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <literal class="class" value="MyInt"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="2">
+                    <var name="x"/>
+                    <expr>
+                        <send selector="print">
+                            <expr>
+                                <send selector="asString">
+                                    <expr>
+                                        <send selector="condition">
+                                            <expr>
+                                                <var name="x"/>
+                                            </expr>
+                                        </send>
+                                    </expr>
+                                </send>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+    <class name="MyInt" parent="Integer">
+        <method selector="condition">
+            <block arity="0">
+                <assign order="1">
+                    <var name="_"/>
+                    <expr>
+                        <send selector="ifTrue:ifFalse:">
+                            <arg order="1">
+                                <expr>
+                                    <block arity="0">
+                                        <assign order="1">
+                                            <var name="u"/>
+                                            <expr>
+                                                <send selector="plus:">
+                                                    <arg order="1">
+                                                        <expr>
+                                                            <literal class="Integer" value="2"/>
+                                                        </expr>
+                                                    </arg>
+                                                    <expr>
+                                                        <var name="self"/>
+                                                    </expr>
+                                                </send>
+                                            </expr>
+                                        </assign>
+                                    </block>
+                                </expr>
+                            </arg>
+                            <arg order="2">
+                                <expr>
+                                    <block arity="0">
+                                        <assign order="1">
+                                            <var name="u"/>
+                                            <expr>
+                                                <send selector="minus:">
+                                                    <arg order="1">
+                                                        <expr>
+                                                            <literal class="Integer" value="2"/>
+                                                        </expr>
+                                                    </arg>
+                                                    <expr>
+                                                        <var name="self"/>
+                                                    </expr>
+                                                </send>
+                                            </expr>
+                                        </assign>
+                                    </block>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <send selector="greaterThan:">
+                                    <arg order="1">
+                                        <expr>
+                                            <literal class="Integer" value="5"/>
+                                        </expr>
+                                    </arg>
+                                    <expr>
+                                        <var name="self"/>
+                                    </expr>
+                                </send>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+</program>
+""".lstrip()
+
+    expected_output = ""
+
+    # Optional user input file (can be empty or contain user input)
+    input_file = tmp_path / "input.txt"
+    input_file.write_text("")  # Empty for this test
+
+    run_test(str(input_file), input_text, expected_output)
+
+
+def test_whileTrue(tmp_path):
+# class Main : Object {
+#     run
+#     [ |
+#         x := self attr: 3.
+#         y := [| ret := (self attr) greaterThan: 0. ] whileTrue:
+#         [| r := ((self attr) asString) print.
+#         r := self attr: ((self attr) minus: 1).].
+#     ]
+# }
+    input_text = """
+<?xml version="1.0" encoding="UTF-8"?>
+<program language="SOL25">
+    <class name="Main" parent="Object">
+        <method selector="run">
+            <block arity="0">
+                <assign order="1">
+                    <var name="x"/>
+                    <expr>
+                        <send selector="attr:">
+                            <arg order="1">
+                                <expr>
+                                    <literal class="Integer" value="3"/>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <var name="self"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="2">
+                    <var name="y"/>
+                    <expr>
+                        <send selector="whileTrue:">
+                            <arg order="1">
+                                <expr>
+                                    <block arity="0">
+                                        <assign order="1">
+                                            <var name="r"/>
+                                            <expr>
+                                                <send selector="print">
+                                                    <expr>
+                                                        <send selector="asString">
+                                                            <expr>
+                                                                <send selector="attr">
+                                                                    <expr>
+                                                                        <var name="self"/>
+                                                                    </expr>
+                                                                </send>
+                                                            </expr>
+                                                        </send>
+                                                    </expr>
+                                                </send>
+                                            </expr>
+                                        </assign>
+                                        <assign order="2">
+                                            <var name="r"/>
+                                            <expr>
+                                                <send selector="attr:">
+                                                    <arg order="1">
+                                                        <expr>
+                                                            <send selector="minus:">
+                                                                <arg order="1">
+                                                                    <expr>
+                                                                        <literal class="Integer" value="1"/>
+                                                                    </expr>
+                                                                </arg>
+                                                                <expr>
+                                                                    <send selector="attr">
+                                                                        <expr>
+                                                                            <var name="self"/>
+                                                                        </expr>
+                                                                    </send>
+                                                                </expr>
+                                                            </send>
+                                                        </expr>
+                                                    </arg>
+                                                    <expr>
+                                                        <var name="self"/>
+                                                    </expr>
+                                                </send>
+                                            </expr>
+                                        </assign>
+                                    </block>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <block arity="0">
+                                    <assign order="1">
+                                        <var name="ret"/>
+                                        <expr>
+                                            <send selector="greaterThan:">
+                                                <arg order="1">
+                                                    <expr>
+                                                        <literal class="Integer" value="0"/>
+                                                    </expr>
+                                                </arg>
+                                                <expr>
+                                                    <send selector="attr">
+                                                        <expr>
+                                                            <var name="self"/>
+                                                        </expr>
+                                                    </send>
+                                                </expr>
+                                            </send>
+                                        </expr>
+                                    </assign>
+                                </block>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+</program>
+""".lstrip()
+
+    expected_output = "321"
+
+    # Optional user input file (can be empty or contain user input)
+    input_file = tmp_path / "input.txt"
+    input_file.write_text("")  # Empty for this test
+
+    run_test(str(input_file), input_text, expected_output)
+
+
+def test_timesRepeat(tmp_path):
+# class Main : Object {
+#     run
+#     [ |
+#         x := self attr: 5.
+#         y := x timesRepeat:
+#         [:i| r := (r asString) print.].
+#     ]
+# }
+    input_text = """
+<?xml version="1.0" encoding="UTF-8"?>
+<program language="SOL25">
+    <class name="Main" parent="Object">
+        <method selector="run">
+            <block arity="0">
+                <assign order="1">
+                    <var name="x"/>
+                    <expr>
+                        <send selector="attr:">
+                            <arg order="1">
+                                <expr>
+                                    <literal class="Integer" value="5"/>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <var name="self"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="2">
+                    <var name="y"/>
+                    <expr>
+                        <send selector="timesRepeat:">
+                            <arg order="1">
+                                <expr>
+                                    <block arity="1">
+                                        <parameter order="1" name="i"/>
+                                        <assign order="1">
+                                            <var name="r"/>
+                                            <expr>
+                                                <send selector="print">
+                                                    <expr>
+                                                        <send selector="asString">
+                                                            <expr>
+                                                                <var name="i"/>
+                                                            </expr>
+                                                        </send>
+                                                    </expr>
+                                                </send>
+                                            </expr>
+                                        </assign>
+                                    </block>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <var name="x"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+</program>
+""".lstrip()
+
+    expected_output = "12345"
+
+    # Optional user input file (can be empty or contain user input)
+    input_file = tmp_path / "input.txt"
+    input_file.write_text("")  # Empty for this test
+
+    run_test(str(input_file), input_text, expected_output)
+
+
+
+
+
 # def test_(tmp_path):
 #     input_text = """
 
@@ -614,20 +1264,6 @@ def test_method_redefinition(tmp_path):
 
 #     run_test(str(input_file), input_text, expected_output)
 
-
-
-# def test_(tmp_path):
-#     input_text = """
-
-# """.lstrip()
-
-#     expected_output = ""
-
-#     # Optional user input file (can be empty or contain user input)
-#     input_file = tmp_path / "input.txt"
-#     input_file.write_text("")  # Empty for this test
-
-#     run_test(str(input_file), input_text, expected_output)
 
 
 

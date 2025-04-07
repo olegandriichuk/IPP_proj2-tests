@@ -23,7 +23,6 @@ def test_basic_output(tmp_path):
 #     _ := x print.
 #     ]
 # }
-
     input_text = """
 <?xml version="1.0" encoding="UTF-8"?>
 <program language="SOL25">

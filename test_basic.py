@@ -1159,9 +1159,9 @@ def test_timesRepeat(tmp_path):
 # class Main : Object {
 #     run
 #     [ |
-#         x := self attr: 5.
+#         x := 5.
 #         y := x timesRepeat:
-#         [:i| r := (r asString) print.].
+#         [:i| r := (i asString) print.].
 #     ]
 # }
     input_text = """
@@ -1173,16 +1173,7 @@ def test_timesRepeat(tmp_path):
                 <assign order="1">
                     <var name="x"/>
                     <expr>
-                        <send selector="attr:">
-                            <arg order="1">
-                                <expr>
-                                    <literal class="Integer" value="5"/>
-                                </expr>
-                            </arg>
-                            <expr>
-                                <var name="self"/>
-                            </expr>
-                        </send>
+                        <literal class="Integer" value="5"/>
                     </expr>
                 </assign>
                 <assign order="2">

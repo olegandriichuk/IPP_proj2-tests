@@ -63,7 +63,10 @@ def test_missing_run(tmp_path):
     run_sem_test(str(input_file), input_text, expected_code)
 
 def test_missing_main(tmp_path):
-# 
+# class Ma : Object {
+#     run
+#     [ | ]
+# }
     input_text = """
 <?xml version="1.0" encoding="UTF-8"?>
 <program language="SOL25">
@@ -293,7 +296,7 @@ def test_DNU_message2(tmp_path):
 
 
 
-def test_integer_read(tmp_path):
+def test_unknown_class_method(tmp_path):
 # class Main : Object {
 #     run
 #     [ |
@@ -323,7 +326,7 @@ def test_integer_read(tmp_path):
 </program>
 """.lstrip()
 
-    expected_code = 51
+    expected_code = 32
 
     # Optional user input file (can be empty or contain user input)
     input_file = tmp_path / "input.txt"
@@ -332,19 +335,48 @@ def test_integer_read(tmp_path):
     run_sem_test(str(input_file), input_text, expected_code)
 
 
-# def test_(tmp_path):
-# # 
-#     input_text = """
+def test_wrong_from_class(tmp_path):
+# class Main : Object {
+#     run
+#     [ | 
+#         x := Integer from: 'ahoj'.
+#     ]
+# }
 
-# """.lstrip()
+    input_text = """
+<?xml version="1.0" encoding="UTF-8"?>
+<program language="SOL25">
+    <class name="Main" parent="Object">
+        <method selector="run">
+            <block arity="0">
+                <assign order="1">
+                    <var name="x"/>
+                    <expr>
+                        <send selector="from:">
+                            <arg order="1">
+                                <expr>
+                                    <literal class="String" value="ahoj"/>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <literal class="class" value="Integer"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+</program>
+""".lstrip()
 
-#     expected_code = 0
+    expected_code = 53
 
-#     # Optional user input file (can be empty or contain user input)
-#     input_file = tmp_path / "input.txt"
-#     input_file.write_text("")  # Empty for this test
+    # Optional user input file (can be empty or contain user input)
+    input_file = tmp_path / "input.txt"
+    input_file.write_text("")  # Empty for this test
 
-#     run_sem_test(str(input_file), input_text, expected_code)
+    run_sem_test(str(input_file), input_text, expected_code)
 
 
 

@@ -3,6 +3,11 @@
 ```
 pytest
 ```
+## Before download:
+```
+Remove remote connection to ipp-core repo first.
+git remote remove origin
+```
 ## Download:
 ```
 # Download into ipp-core, NOT student/
@@ -22,3 +27,4 @@ git pull # in tests directory
 ## Notes:
 Tag or DM me if you see any issues. (@Kubikuli)
 If you'd like to contribute to tests, create a pull request.
+You can find basic skeleton at the start of each test file that you can use to create new tests. 

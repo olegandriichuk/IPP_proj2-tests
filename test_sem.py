@@ -62,6 +62,28 @@ def test_missing_run(tmp_path):
 
     run_sem_test(str(input_file), input_text, expected_code)
 
+def test_missing_main(tmp_path):
+# 
+    input_text = """
+<?xml version="1.0" encoding="UTF-8"?>
+<program language="SOL25">
+    <class name="Ma" parent="Object">
+        <method selector="run">
+            <block arity="0"/>
+        </method>
+    </class>
+</program>
+""".lstrip()
+
+    expected_code = 31
+
+    # Optional user input file (can be empty or contain user input)
+    input_file = tmp_path / "input.txt"
+    input_file.write_text("")  # Empty for this test
+
+    run_sem_test(str(input_file), input_text, expected_code)
+
+
 def test_unknown_attribute(tmp_path):
 # class Main : Object {
 #     run

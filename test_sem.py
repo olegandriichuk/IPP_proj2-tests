@@ -296,11 +296,11 @@ def test_DNU_message2(tmp_path):
 
 
 
-def test_unknown_class_method(tmp_path):
+def test_DNU_class_method(tmp_path):
 # class Main : Object {
 #     run
 #     [ |
-#         x := Integer new.
+#         x := Integer read.
 #     ]
 # }
 

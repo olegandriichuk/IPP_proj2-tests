@@ -1606,7 +1606,7 @@ def test_if_else2(tmp_path):
     run_test(str(input_file), input_text, expected_output)
 
 
-def test_whileTrue(tmp_path):
+def test_whileTrue2(tmp_path):
 # class Main : Object {
 #     run
 #     [ |

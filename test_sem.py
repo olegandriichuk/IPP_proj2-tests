@@ -192,6 +192,105 @@ def test_unknown_variable(tmp_path):
     run_sem_test(str(input_file), input_text, expected_code)
 
 
+def test_unknown_variable2(tmp_path):
+# class Main : Object {
+#     run
+#     [ |
+#         x := 3.
+#         y := [| ret := x greaterThan: 0. ] whileTrue:
+#         [| r := (x asString) print.
+#         x := x minus: 1.].
+#     ]
+# }
+    input_text = """
+<?xml version="1.0" encoding="UTF-8"?>
+<program language="SOL25">
+    <class name="Main" parent="Object">
+        <method selector="run">
+            <block arity="0">
+                <assign order="1">
+                    <var name="x"/>
+                    <expr>
+                        <literal class="Integer" value="3"/>
+                    </expr>
+                </assign>
+                <assign order="2">
+                    <var name="y"/>
+                    <expr>
+                        <send selector="whileTrue:">
+                            <arg order="1">
+                                <expr>
+                                    <block arity="0">
+                                        <assign order="1">
+                                            <var name="r"/>
+                                            <expr>
+                                                <send selector="print">
+                                                    <expr>
+                                                        <send selector="asString">
+                                                            <expr>
+                                                                <var name="x"/>
+                                                            </expr>
+                                                        </send>
+                                                    </expr>
+                                                </send>
+                                            </expr>
+                                        </assign>
+                                        <assign order="2">
+                                            <var name="x"/>
+                                            <expr>
+                                                <send selector="minus:">
+                                                    <arg order="1">
+                                                        <expr>
+                                                            <literal class="Integer" value="1"/>
+                                                        </expr>
+                                                    </arg>
+                                                    <expr>
+                                                        <var name="x"/>
+                                                    </expr>
+                                                </send>
+                                            </expr>
+                                        </assign>
+                                    </block>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <block arity="0">
+                                    <assign order="1">
+                                        <var name="ret"/>
+                                        <expr>
+                                            <send selector="greaterThan:">
+                                                <arg order="1">
+                                                    <expr>
+                                                        <literal class="Integer" value="0"/>
+                                                    </expr>
+                                                </arg>
+                                                <expr>
+                                                    <var name="x"/>
+                                                </expr>
+                                            </send>
+                                        </expr>
+                                    </assign>
+                                </block>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+</program>
+""".lstrip()
+
+    expected_code = 32
+
+    # Optional user input file (can be empty or contain user input)
+    input_file = tmp_path / "input.txt"
+    input_file.write_text("")  # Empty for this test
+
+    run_sem_test(str(input_file), input_text, expected_code)
+
+
+
 
 def test_DNU_message1(tmp_path):
 # class Main : Object {

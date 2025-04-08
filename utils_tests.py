@@ -6,7 +6,7 @@ def run_test(input_path, source, expected_output):
         input=source,
         capture_output=True,
         text=True,
-        timeout=5,
+        timeout=3,
     )
 
     print(process.stdout)

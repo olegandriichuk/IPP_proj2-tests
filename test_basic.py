@@ -751,7 +751,395 @@ def test_factorial(tmp_path):
     run_test(str(input_file), input_text, expected_output)
 
 
+
 def test_if_then(tmp_path):
+# class Main : Object {
+#     run
+#     [ |
+#         x := 3.
+#         _ := (x greaterThan: 0)
+#         ifTrue: [|u := 'ANO' print.]
+#         ifFalse: [|u := 'NE' print.]. 
+#     ]
+# }
+
+    input_text = """
+<?xml version="1.0" encoding="UTF-8"?>
+<program language="SOL25">
+    <class name="Main" parent="Object">
+        <method selector="run">
+            <block arity="0">
+                <assign order="1">
+                    <var name="x"/>
+                    <expr>
+                        <literal class="Integer" value="3"/>
+                    </expr>
+                </assign>
+                <assign order="2">
+                    <var name="_"/>
+                    <expr>
+                        <send selector="ifTrue:ifFalse:">
+                            <arg order="1">
+                                <expr>
+                                    <block arity="0">
+                                        <assign order="1">
+                                            <var name="u"/>
+                                            <expr>
+                                                <send selector="print">
+                                                    <expr>
+                                                        <literal class="String" value="ANO"/>
+                                                    </expr>
+                                                </send>
+                                            </expr>
+                                        </assign>
+                                    </block>
+                                </expr>
+                            </arg>
+                            <arg order="2">
+                                <expr>
+                                    <block arity="0">
+                                        <assign order="1">
+                                            <var name="u"/>
+                                            <expr>
+                                                <send selector="print">
+                                                    <expr>
+                                                        <literal class="String" value="NE"/>
+                                                    </expr>
+                                                </send>
+                                            </expr>
+                                        </assign>
+                                    </block>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <send selector="greaterThan:">
+                                    <arg order="1">
+                                        <expr>
+                                            <literal class="Integer" value="0"/>
+                                        </expr>
+                                    </arg>
+                                    <expr>
+                                        <var name="x"/>
+                                    </expr>
+                                </send>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+</program>
+""".lstrip()
+
+    expected_output = "ANO"
+
+    # Optional user input file (can be empty or contain user input)
+    input_file = tmp_path / "input.txt"
+    input_file.write_text("")  # Empty for this test
+
+    run_test(str(input_file), input_text, expected_output)
+
+
+
+def test_if_else(tmp_path):
+# class Main : Object {
+#     run
+#     [ |
+#         x := 3.
+#         _ := (x greaterThan: 3)
+#         ifTrue: [|u := 'ANO' print.]
+#         ifFalse: [|u := 'NE' print.]. 
+#     ]
+# }
+
+    input_text = """
+<?xml version="1.0" encoding="UTF-8"?>
+<program language="SOL25">
+    <class name="Main" parent="Object">
+        <method selector="run">
+            <block arity="0">
+                <assign order="1">
+                    <var name="x"/>
+                    <expr>
+                        <literal class="Integer" value="3"/>
+                    </expr>
+                </assign>
+                <assign order="2">
+                    <var name="_"/>
+                    <expr>
+                        <send selector="ifTrue:ifFalse:">
+                            <arg order="1">
+                                <expr>
+                                    <block arity="0">
+                                        <assign order="1">
+                                            <var name="u"/>
+                                            <expr>
+                                                <send selector="print">
+                                                    <expr>
+                                                        <literal class="String" value="ANO"/>
+                                                    </expr>
+                                                </send>
+                                            </expr>
+                                        </assign>
+                                    </block>
+                                </expr>
+                            </arg>
+                            <arg order="2">
+                                <expr>
+                                    <block arity="0">
+                                        <assign order="1">
+                                            <var name="u"/>
+                                            <expr>
+                                                <send selector="print">
+                                                    <expr>
+                                                        <literal class="String" value="NE"/>
+                                                    </expr>
+                                                </send>
+                                            </expr>
+                                        </assign>
+                                    </block>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <send selector="greaterThan:">
+                                    <arg order="1">
+                                        <expr>
+                                            <literal class="Integer" value="3"/>
+                                        </expr>
+                                    </arg>
+                                    <expr>
+                                        <var name="x"/>
+                                    </expr>
+                                </send>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+</program>
+""".lstrip()
+
+    expected_output = "NE"
+
+    # Optional user input file (can be empty or contain user input)
+    input_file = tmp_path / "input.txt"
+    input_file.write_text("")  # Empty for this test
+
+    run_test(str(input_file), input_text, expected_output)
+
+
+def test_reassign(tmp_path):
+# class Main : Object {
+#     run
+#     [ |
+#         x := 3.
+#         x := x plus: 5.
+#         _ := (x greaterThan: 5)
+#         ifTrue: [|u := 'ANO' print.]
+#         ifFalse: [|u := 'NE' print.]. 
+#     ]
+# }
+
+    input_text = """
+<?xml version="1.0" encoding="UTF-8"?>
+<program language="SOL25">
+    <class name="Main" parent="Object">
+        <method selector="run">
+            <block arity="0">
+                <assign order="1">
+                    <var name="x"/>
+                    <expr>
+                        <literal class="Integer" value="3"/>
+                    </expr>
+                </assign>
+                <assign order="2">
+                    <var name="x"/>
+                    <expr>
+                        <send selector="plus:">
+                            <arg order="1">
+                                <expr>
+                                    <literal class="Integer" value="5"/>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <var name="x"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="3">
+                    <var name="_"/>
+                    <expr>
+                        <send selector="ifTrue:ifFalse:">
+                            <arg order="1">
+                                <expr>
+                                    <block arity="0">
+                                        <assign order="1">
+                                            <var name="u"/>
+                                            <expr>
+                                                <send selector="print">
+                                                    <expr>
+                                                        <literal class="String" value="ANO"/>
+                                                    </expr>
+                                                </send>
+                                            </expr>
+                                        </assign>
+                                    </block>
+                                </expr>
+                            </arg>
+                            <arg order="2">
+                                <expr>
+                                    <block arity="0">
+                                        <assign order="1">
+                                            <var name="u"/>
+                                            <expr>
+                                                <send selector="print">
+                                                    <expr>
+                                                        <literal class="String" value="NE"/>
+                                                    </expr>
+                                                </send>
+                                            </expr>
+                                        </assign>
+                                    </block>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <send selector="greaterThan:">
+                                    <arg order="1">
+                                        <expr>
+                                            <literal class="Integer" value="5"/>
+                                        </expr>
+                                    </arg>
+                                    <expr>
+                                        <var name="x"/>
+                                    </expr>
+                                </send>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+</program>
+""".lstrip()
+
+    expected_output = "ANO"
+
+    # Optional user input file (can be empty or contain user input)
+    input_file = tmp_path / "input.txt"
+    input_file.write_text("")  # Empty for this test
+
+    run_test(str(input_file), input_text, expected_output)
+
+
+def test_wrong_order(tmp_path):
+    input_text = """
+<?xml version="1.0" encoding="UTF-8"?>
+<program language="SOL25">
+    <class name="Main" parent="Object">
+        <method selector="run">
+            <block arity="0">
+                    <assign order="3">
+                    <var name="x"/>
+                    <expr>
+                        <send selector="multiplyBy:">
+                            <arg order="1">
+                                <expr>
+                                    <literal class="Integer" value="4"/>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <var name="x"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="1">
+                    <var name="x"/>
+                    <expr>
+                        <literal class="Integer" value="3"/>
+                    </expr>
+                </assign>
+                    <assign order="4">
+                    <var name="_"/>
+                    <expr>
+                        <send selector="print">
+                            <expr>
+                                <send selector="asString">
+                                    <expr>
+                                        <var name="x"/>
+                                    </expr>
+                                </send>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="2">
+                    <var name="x"/>
+                    <expr>
+                        <send selector="plus:">
+                            <arg order="1">
+                                <expr>
+                                    <literal class="Integer" value="2"/>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <var name="x"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+</program>
+""".lstrip()
+
+    expected_output = "20"
+
+    # Optional user input file (can be empty or contain user input)
+    input_file = tmp_path / "input.txt"
+    input_file.write_text("")  # Empty for this test
+
+    run_test(str(input_file), input_text, expected_output)
+
+
+# def test_(tmp_path):
+#     input_text = """
+
+# """.lstrip()
+
+#     expected_output = ""
+
+#     # Optional user input file (can be empty or contain user input)
+#     input_file = tmp_path / "input.txt"
+#     input_file.write_text("")  # Empty for this test
+
+#     run_test(str(input_file), input_text, expected_output)
+
+
+
+# def test_(tmp_path):
+#     input_text = """
+
+# """.lstrip()
+
+#     expected_output = ""
+
+#     # Optional user input file (can be empty or contain user input)
+#     input_file = tmp_path / "input.txt"
+#     input_file.write_text("")  # Empty for this test
+
+#     run_test(str(input_file), input_text, expected_output)
+
+
+
+
+def test_if_then2(tmp_path):
 # class Main : Object {
 #     run
 #     [ |
@@ -889,7 +1277,7 @@ def test_if_then(tmp_path):
     run_test(str(input_file), input_text, expected_output)
 
 
-def test_if_else(tmp_path):
+def test_if_else2(tmp_path):
 # class Main : Object {
 #     run "<- definice metody - bezparametrický selektor run"
 #     [ |

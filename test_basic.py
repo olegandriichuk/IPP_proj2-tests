@@ -1036,14 +1036,24 @@ def test_reassign(tmp_path):
     run_test(str(input_file), input_text, expected_output)
 
 
-def test_wrong_order(tmp_path):
+def test_wrong_assign_order(tmp_path):
+# class Main : Object {
+#     run
+#     [ |
+#         x := 3.
+#         x := x plus: 1.
+#         x := x multiplyBy: 4.
+#         _ := (x asString) print. 
+#     ]
+# }
+
     input_text = """
 <?xml version="1.0" encoding="UTF-8"?>
 <program language="SOL25">
     <class name="Main" parent="Object">
         <method selector="run">
             <block arity="0">
-                    <assign order="3">
+                <assign order="3">
                     <var name="x"/>
                     <expr>
                         <send selector="multiplyBy:">
@@ -1064,7 +1074,7 @@ def test_wrong_order(tmp_path):
                         <literal class="Integer" value="3"/>
                     </expr>
                 </assign>
-                    <assign order="4">
+                <assign order="4">
                     <var name="_"/>
                     <expr>
                         <send selector="print">
@@ -1108,6 +1118,185 @@ def test_wrong_order(tmp_path):
     run_test(str(input_file), input_text, expected_output)
 
 
+def test_wrong_param_order(tmp_path):
+# class Main : Object {
+#     run
+#     [ |
+#         x := self fo: 9 fo: 3.
+#         _ := (x asString) print.
+#     ]
+
+#     fo:fo:[:x :y|
+#         _ := x divBy: y.
+#     ]
+# }
+
+    input_text = """
+<?xml version="1.0" encoding="UTF-8"?>
+<program language="SOL25">
+    <class name="Main" parent="Object">
+        <method selector="run">
+            <block arity="0">
+                <assign order="1">
+                    <var name="x"/>
+                    <expr>
+                        <send selector="fo:fo:">
+                            <arg order="1">
+                                <expr>
+                                    <literal class="Integer" value="9"/>
+                                </expr>
+                            </arg>
+                            <arg order="2">
+                                <expr>
+                                    <literal class="Integer" value="3"/>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <var name="self"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="2">
+                    <var name="_"/>
+                    <expr>
+                        <send selector="print">
+                            <expr>
+                                <send selector="asString">
+                                    <expr>
+                                        <var name="x"/>
+                                    </expr>
+                                </send>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+        <method selector="fo:fo:">
+            <block arity="2">
+                <parameter order="2" name="y"/>
+                <parameter order="1" name="x"/>
+                <assign order="1">
+                    <var name="_"/>
+                    <expr>
+                        <send selector="divBy:">
+                            <arg order="1">
+                                <expr>
+                                    <var name="y"/>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <var name="x"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+</program>
+""".lstrip()
+
+    expected_output = "3"
+
+    # Optional user input file (can be empty or contain user input)
+    input_file = tmp_path / "input.txt"
+    input_file.write_text("")  # Empty for this test
+
+    run_test(str(input_file), input_text, expected_output)
+
+
+
+def test_wrong_arg_order(tmp_path):
+# class Main : Object {
+#     run
+#     [ |
+#         x := self fo: 9 fo: 3.
+#         _ := (x asString) print.
+#     ]
+
+#     fo:fo:[:x :y|
+#         _ := x divBy: y.
+#     ]
+# }
+
+    input_text = """
+<?xml version="1.0" encoding="UTF-8"?>
+<program language="SOL25">
+    <class name="Main" parent="Object">
+        <method selector="run">
+            <block arity="0">
+                <assign order="1">
+                    <var name="x"/>
+                    <expr>
+                        <send selector="fo:fo:">
+                            <arg order="2">
+                                <expr>
+                                    <literal class="Integer" value="3"/>
+                                </expr>
+                            </arg>
+                            <arg order="1">
+                                <expr>
+                                    <literal class="Integer" value="9"/>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <var name="self"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="2">
+                    <var name="_"/>
+                    <expr>
+                        <send selector="print">
+                            <expr>
+                                <send selector="asString">
+                                    <expr>
+                                        <var name="x"/>
+                                    </expr>
+                                </send>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+        <method selector="fo:fo:">
+            <block arity="2">
+                <parameter order="1" name="x"/>
+                <parameter order="2" name="y"/>
+                <assign order="1">
+                    <var name="_"/>
+                    <expr>
+                        <send selector="divBy:">
+                            <arg order="1">
+                                <expr>
+                                    <var name="y"/>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <var name="x"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+</program>
+""".lstrip()
+
+    expected_output = "3"
+
+    # Optional user input file (can be empty or contain user input)
+    input_file = tmp_path / "input.txt"
+    input_file.write_text("")  # Empty for this test
+
+    run_test(str(input_file), input_text, expected_output)
+
+
 # def test_(tmp_path):
 #     input_text = """
 
@@ -1123,6 +1312,7 @@ def test_wrong_order(tmp_path):
 
 
 
+
 # def test_(tmp_path):
 #     input_text = """
 
@@ -1135,6 +1325,7 @@ def test_wrong_order(tmp_path):
 #     input_file.write_text("")  # Empty for this test
 
 #     run_test(str(input_file), input_text, expected_output)
+
 
 
 

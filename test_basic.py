@@ -331,6 +331,84 @@ def test_read(tmp_path):
 
     run_test(str(input_file), input_text, expected_output)
 
+def test_basic_attr_create(tmp_path):
+# class Main : Object {
+#     run
+#     [ |
+#         _ := self attr: 5.
+#         x := (self attr) plus: 2.
+#         _ := (x asString) print.
+#     ]
+# }
+    input_text = """
+<?xml version="1.0" encoding="UTF-8"?>
+<program language="SOL25">
+    <class name="Main" parent="Object">
+        <method selector="run">
+            <block arity="0">
+                <assign order="1">
+                    <var name="_"/>
+                    <expr>
+                        <send selector="attr:">
+                            <arg order="1">
+                                <expr>
+                                    <literal class="Integer" value="5"/>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <var name="self"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="2">
+                    <var name="x"/>
+                    <expr>
+                        <send selector="plus:">
+                            <arg order="1">
+                                <expr>
+                                    <literal class="Integer" value="2"/>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <send selector="attr">
+                                    <expr>
+                                        <var name="self"/>
+                                    </expr>
+                                </send>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="3">
+                    <var name="_"/>
+                    <expr>
+                        <send selector="print">
+                            <expr>
+                                <send selector="asString">
+                                    <expr>
+                                        <var name="x"/>
+                                    </expr>
+                                </send>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+</program>
+""".lstrip()
+
+    expected_output = "7"
+
+    # Optional user input file (can be empty or contain user input)
+    input_file = tmp_path / "input.txt"
+    input_file.write_text("")  # Empty for this test
+
+    run_test(str(input_file), input_text, expected_output)
+
+
 def test_block_result(tmp_path):
 # class Main : Object {
 # run [|
@@ -1297,39 +1375,6 @@ def test_wrong_arg_order(tmp_path):
     run_test(str(input_file), input_text, expected_output)
 
 
-# def test_(tmp_path):
-#     input_text = """
-
-# """.lstrip()
-
-#     expected_output = ""
-
-#     # Optional user input file (can be empty or contain user input)
-#     input_file = tmp_path / "input.txt"
-#     input_file.write_text("")  # Empty for this test
-
-#     run_test(str(input_file), input_text, expected_output)
-
-
-
-
-# def test_(tmp_path):
-#     input_text = """
-
-# """.lstrip()
-
-#     expected_output = ""
-
-#     # Optional user input file (can be empty or contain user input)
-#     input_file = tmp_path / "input.txt"
-#     input_file.write_text("")  # Empty for this test
-
-#     run_test(str(input_file), input_text, expected_output)
-
-
-
-
-
 def test_if_then2(tmp_path):
 # class Main : Object {
 #     run
@@ -1597,7 +1642,7 @@ def test_if_else2(tmp_path):
 </program>
 """.lstrip()
 
-    expected_output = ""
+    expected_output = "1"
 
     # Optional user input file (can be empty or contain user input)
     input_file = tmp_path / "input.txt"
@@ -1818,8 +1863,213 @@ def test_timesRepeat(tmp_path):
 #     run_test(str(input_file), input_text, expected_output)
 
 
+# def test_(tmp_path):
+#     input_text = """
+
+# """.lstrip()
+
+#     expected_output = ""
+
+#     # Optional user input file (can be empty or contain user input)
+#     input_file = tmp_path / "input.txt"
+#     input_file.write_text("")  # Empty for this test
+
+#     run_test(str(input_file), input_text, expected_output)
 
 
+
+# def test_(tmp_path):
+#     input_text = """
+
+# """.lstrip()
+
+#     expected_output = ""
+
+#     # Optional user input file (can be empty or contain user input)
+#     input_file = tmp_path / "input.txt"
+#     input_file.write_text("")  # Empty for this test
+
+#     run_test(str(input_file), input_text, expected_output)
+
+
+
+# def test_(tmp_path):
+#     input_text = """
+
+# """.lstrip()
+
+#     expected_output = ""
+
+#     # Optional user input file (can be empty or contain user input)
+#     input_file = tmp_path / "input.txt"
+#     input_file.write_text("")  # Empty for this test
+
+#     run_test(str(input_file), input_text, expected_output)
+
+
+
+def test_example_simplified(tmp_path):
+# class Main : Object {
+#     run
+#     [ |
+#         x := self compute: 3 and: 2 and: 5.
+#         x := self plusOne: (self vysl).
+#         y := x asString .
+#         _ := y print.
+#     ]
+    
+#     plusOne: 
+#     [ :x | 
+#         r := x plus: 1. 
+#     ]
+    
+#     compute:and:and: 
+#     [ :x :y :z |
+#         a := x plus: y.
+#         _ := self vysl: a.
+#     ]
+# }
+
+    input_text = """
+<?xml version="1.0" encoding="UTF-8"?>
+<program language="SOL25">
+    <class name="Main" parent="Object">
+        <method selector="run">
+            <block arity="0">
+                <assign order="1">
+                    <var name="x"/>
+                    <expr>
+                        <send selector="compute:and:and:">
+                            <arg order="1">
+                                <expr>
+                                    <literal class="Integer" value="3"/>
+                                </expr>
+                            </arg>
+                            <arg order="2">
+                                <expr>
+                                    <literal class="Integer" value="2"/>
+                                </expr>
+                            </arg>
+                            <arg order="3">
+                                <expr>
+                                    <literal class="Integer" value="5"/>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <var name="self"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="2">
+                    <var name="x"/>
+                    <expr>
+                        <send selector="plusOne:">
+                            <arg order="1">
+                                <expr>
+                                    <send selector="vysl">
+                                        <expr>
+                                            <var name="self"/>
+                                        </expr>
+                                    </send>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <var name="self"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="3">
+                    <var name="y"/>
+                    <expr>
+                        <send selector="asString">
+                            <expr>
+                                <var name="x"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="4">
+                    <var name="_"/>
+                    <expr>
+                        <send selector="print">
+                            <expr>
+                                <var name="y"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+        <method selector="plusOne:">
+            <block arity="1">
+                <parameter order="1" name="x"/>
+                <assign order="1">
+                    <var name="r"/>
+                    <expr>
+                        <send selector="plus:">
+                            <arg order="1">
+                                <expr>
+                                    <literal class="Integer" value="1"/>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <var name="x"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+        <method selector="compute:and:and:">
+            <block arity="3">
+                <parameter order="1" name="x"/>
+                <parameter order="2" name="y"/>
+                <parameter order="3" name="z"/>
+                <assign order="1">
+                    <var name="a"/>
+                    <expr>
+                        <send selector="plus:">
+                            <arg order="1">
+                                <expr>
+                                    <var name="y"/>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <var name="x"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="2">
+                    <var name="_"/>
+                    <expr>
+                        <send selector="vysl:">
+                            <arg order="1">
+                                <expr>
+                                    <var name="a"/>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <var name="self"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+</program>
+""".lstrip()
+
+    expected_output = "6"
+
+    # Optional user input file (can be empty or contain user input)
+    input_file = tmp_path / "input.txt"
+    input_file.write_text("")  # Empty for this test
+
+    run_test(str(input_file), input_text, expected_output)
 
 
 def test_example(tmp_path):
@@ -2035,3 +2285,4 @@ def test_example(tmp_path):
     input_file.write_text("")  # Empty for this test
 
     run_test(str(input_file), input_text, expected_output)
+

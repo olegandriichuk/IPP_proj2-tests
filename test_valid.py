@@ -2351,18 +2351,136 @@ def test_spec_page12(tmp_path):
 
 
 
-# def test_(tmp_path):
-#     input_text = """
+def test_super(tmp_path):
+# class Main : Object {
+#     run [|
+#         x := MyInt from: 8.
+#         x := x foo.
+#         _ := (x asString) print.
+#     ]
+# }
 
-# """.lstrip()
+# class MyInt : Integer {
+#     foo[|
+#         _ := MyInt from: ((super plus: 100) asInteger).
+#     ]
 
-#     expected_output = ""
+# "plus redefined to print given value"
+#     plus:[:x|
+#         _ := (x asString) print.
+#     ]
+# }
+    input_text = """
+<?xml version="1.0" encoding="UTF-8"?>
+<program language="SOL25" description="plus redefined to print given value">
+    <class name="Main" parent="Object">
+        <method selector="run">
+            <block arity="0">
+                <assign order="1">
+                    <var name="x"/>
+                    <expr>
+                        <send selector="from:">
+                            <arg order="1">
+                                <expr>
+                                    <literal class="Integer" value="8"/>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <literal class="class" value="MyInt"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="2">
+                    <var name="x"/>
+                    <expr>
+                        <send selector="foo">
+                            <expr>
+                                <var name="x"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="3">
+                    <var name="_"/>
+                    <expr>
+                        <send selector="print">
+                            <expr>
+                                <send selector="asString">
+                                    <expr>
+                                        <var name="x"/>
+                                    </expr>
+                                </send>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+    <class name="MyInt" parent="Integer">
+        <method selector="foo">
+            <block arity="0">
+                <assign order="1">
+                    <var name="_"/>
+                    <expr>
+                        <send selector="from:">
+                            <arg order="1">
+                                <expr>
+                                    <send selector="asInteger">
+                                        <expr>
+                                            <send selector="plus:">
+                                                <arg order="1">
+                                                    <expr>
+                                                        <literal class="Integer" value="100"/>
+                                                    </expr>
+                                                </arg>
+                                                <expr>
+                                                    <var name="super"/>
+                                                </expr>
+                                            </send>
+                                        </expr>
+                                    </send>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <literal class="class" value="MyInt"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+        <method selector="plus:">
+            <block arity="1">
+                <parameter order="1" name="x"/>
+                <assign order="1">
+                    <var name="_"/>
+                    <expr>
+                        <send selector="print">
+                            <expr>
+                                <send selector="asString">
+                                    <expr>
+                                        <var name="x"/>
+                                    </expr>
+                                </send>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+</program>
+""".lstrip()
 
-#     # Optional user input file (can be empty or contain user input)
-#     input_file = tmp_path / "input.txt"
-#     input_file.write_text("")  # Empty for this test
+    expected_output = "108"
 
-#     run_test(str(input_file), input_text, expected_output)
+    # Optional user input file (can be empty or contain user input)
+    input_file = tmp_path / "input.txt"
+    input_file.write_text("")  # Empty for this test
+
+    run_test(str(input_file), input_text, expected_output)
 
 
 

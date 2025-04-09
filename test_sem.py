@@ -394,6 +394,45 @@ def test_DNU_message2(tmp_path):
     run_sem_test(str(input_file), input_text, expected_code)
 
 
+def test_DNU_message3(tmp_path):
+# class Main : Object {
+#     run [|
+#         _ := 1 print.
+#     ]
+# }
+
+    input_text = """
+<?xml version="1.0" encoding="UTF-8"?>
+<program language="SOL25">
+    <class name="Main" parent="Object">
+        <method selector="run">
+            <block arity="0">
+                <assign order="1">
+                    <var name="_"/>
+                    <expr>
+                        <send selector="print">
+                            <expr>
+                                <literal class="Integer" value="1"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+</program>
+""".lstrip()
+
+    expected_code = 51
+
+    # Optional user input file (can be empty or contain user input)
+    input_file = tmp_path / "input.txt"
+    input_file.write_text("")  # Empty for this test
+
+    run_sem_test(str(input_file), input_text, expected_code)
+
+
+
 
 def test_DNU_class_method(tmp_path):
 # class Main : Object {
@@ -476,6 +515,10 @@ def test_wrong_from_class(tmp_path):
     input_file.write_text("")  # Empty for this test
 
     run_sem_test(str(input_file), input_text, expected_code)
+
+
+
+
 
 
 

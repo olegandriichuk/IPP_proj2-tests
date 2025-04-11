@@ -2,11 +2,13 @@
 ## Usage:
 ```
 pytest
+pytest tests/test_valid.py [test_sem.py | test_builtin.py]
 ```
 ## Before download:
 ```
 Remove remote connection to ipp-core repo first.
 git remote remove origin
+# (^^ in ipp-core dir)
 ```
 ## Download:
 ```
@@ -26,5 +28,5 @@ git pull # in tests directory
 ```
 ## Notes:
 Tag or DM me if you see any issues. (@Kubikuli)
-If you'd like to contribute to tests, create a pull request.
-You can find basic skeleton at the start of each test file that you can use to create new tests. 
+If you'd like to contribute to tests, create a pull request. Or send me SOL25 source code if you don't have working parser.
+You can find basic skeleton at the start of each test file that you can easily use to create new tests. 

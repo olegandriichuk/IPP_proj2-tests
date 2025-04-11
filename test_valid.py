@@ -2483,6 +2483,112 @@ def test_super(tmp_path):
     run_test(str(input_file), input_text, expected_output)
 
 
+def test_attribute_inheritance(tmp_path):
+# class A: Integer {}
+# class Main: Object{
+#   run [|
+#       x := A from: ((Integer from: 1) value: (Integer from: 2)).
+#       _ := (x asString) print.
+#       _ := ((x value) asString) print.
+#   ]
+# }
+
+    input_text = """
+<?xml version="1.0" encoding="UTF-8"?>
+<program language="SOL25">
+    <class name="A" parent="Integer"/>
+    <class name="Main" parent="Object">
+        <method selector="run">
+            <block arity="0">
+                <assign order="1">
+                    <var name="x"/>
+                    <expr>
+                        <send selector="from:">
+                            <arg order="1">
+                                <expr>
+                                    <send selector="value:">
+                                        <arg order="1">
+                                            <expr>
+                                                <send selector="from:">
+                                                    <arg order="1">
+                                                        <expr>
+                                                            <literal class="Integer" value="2"/>
+                                                        </expr>
+                                                    </arg>
+                                                    <expr>
+                                                        <literal class="class" value="Integer"/>
+                                                    </expr>
+                                                </send>
+                                            </expr>
+                                        </arg>
+                                        <expr>
+                                            <send selector="from:">
+                                                <arg order="1">
+                                                    <expr>
+                                                        <literal class="Integer" value="1"/>
+                                                    </expr>
+                                                </arg>
+                                                <expr>
+                                                    <literal class="class" value="Integer"/>
+                                                </expr>
+                                            </send>
+                                        </expr>
+                                    </send>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <literal class="class" value="A"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="2">
+                    <var name="_"/>
+                    <expr>
+                        <send selector="print">
+                            <expr>
+                                <send selector="asString">
+                                    <expr>
+                                        <var name="x"/>
+                                    </expr>
+                                </send>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="3">
+                    <var name="_"/>
+                    <expr>
+                        <send selector="print">
+                            <expr>
+                                <send selector="asString">
+                                    <expr>
+                                        <send selector="value">
+                                            <expr>
+                                                <var name="x"/>
+                                            </expr>
+                                        </send>
+                                    </expr>
+                                </send>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+</program>
+""".lstrip()
+
+    expected_output = "12"
+
+    # Optional user input file (can be empty or contain user input)
+    input_file = tmp_path / "input.txt"
+    input_file.write_text("")  # Empty for this test
+
+    run_test(str(input_file), input_text, expected_output)
+
+
 
 def test_example_simplified(tmp_path):
 # class Main : Object {

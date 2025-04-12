@@ -1935,8 +1935,8 @@ def test_not_or_and(tmp_path):
 #         x := True new.
 
 #         y := x not.
-#         z := x and: y.
-#         u := x or: y.
+#         z := x and: [| _ := False new.].
+#         u := x or: [| _ := False new.].
 
 #         _ := y
 #         ifTrue: [| _ := 'ANO ' print.]
@@ -1984,7 +1984,18 @@ def test_not_or_and(tmp_path):
                         <send selector="and:">
                             <arg order="1">
                                 <expr>
-                                    <var name="y"/>
+                                    <block arity="0">
+                                        <assign order="1">
+                                            <var name="_"/>
+                                            <expr>
+                                                <send selector="new">
+                                                    <expr>
+                                                        <literal class="class" value="False"/>
+                                                    </expr>
+                                                </send>
+                                            </expr>
+                                        </assign>
+                                    </block>
                                 </expr>
                             </arg>
                             <expr>
@@ -1999,7 +2010,18 @@ def test_not_or_and(tmp_path):
                         <send selector="or:">
                             <arg order="1">
                                 <expr>
-                                    <var name="y"/>
+                                    <block arity="0">
+                                        <assign order="1">
+                                            <var name="_"/>
+                                            <expr>
+                                                <send selector="new">
+                                                    <expr>
+                                                        <literal class="class" value="False"/>
+                                                    </expr>
+                                                </send>
+                                            </expr>
+                                        </assign>
+                                    </block>
                                 </expr>
                             </arg>
                             <expr>

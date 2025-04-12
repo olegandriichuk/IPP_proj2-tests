@@ -54,7 +54,7 @@ def test_missing_run(tmp_path):
 </program>
 """.lstrip()
 
-    expected_code = 31
+    expected_code = 52
 
     # Optional user input file (can be empty or contain user input)
     input_file = tmp_path / "input.txt"
@@ -78,7 +78,7 @@ def test_missing_main(tmp_path):
 </program>
 """.lstrip()
 
-    expected_code = 31
+    expected_code = 52
 
     # Optional user input file (can be empty or contain user input)
     input_file = tmp_path / "input.txt"
@@ -183,7 +183,7 @@ def test_unknown_variable(tmp_path):
 </program>
 """.lstrip()
 
-    expected_code = 32
+    expected_code = 52
 
     # Optional user input file (can be empty or contain user input)
     input_file = tmp_path / "input.txt"
@@ -281,7 +281,7 @@ def test_unknown_variable2(tmp_path):
 </program>
 """.lstrip()
 
-    expected_code = 32
+    expected_code = 52
 
     # Optional user input file (can be empty or contain user input)
     input_file = tmp_path / "input.txt"
@@ -463,7 +463,7 @@ def test_DNU_class_method(tmp_path):
 </program>
 """.lstrip()
 
-    expected_code = 32
+    expected_code = 51
 
     # Optional user input file (can be empty or contain user input)
     input_file = tmp_path / "input.txt"

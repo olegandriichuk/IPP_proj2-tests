@@ -1217,7 +1217,99 @@ def test_nil_equality(tmp_path):
     run_test(str(input_file), input_text, expected_output)
 
 
-def test_(tmp_path):
+def test_isBlock(tmp_path):
+# class Main : Object {
+# run [|
+#         a := [ :x | _ := 42. ].
+
+#         _ := (a isBlock)
+#         ifTrue: [| _ := 'ANO' print.]
+#         ifFalse: [| _ := 'NE' print.].
+#     ]
+# }
+
+    input_text = """
+<?xml version="1.0" encoding="UTF-8"?>
+<program language="SOL25">
+    <class name="Main" parent="Object">
+        <method selector="run">
+            <block arity="0">
+                <assign order="1">
+                    <var name="a"/>
+                    <expr>
+                        <block arity="1">
+                            <parameter order="1" name="x"/>
+                            <assign order="1">
+                                <var name="_"/>
+                                <expr>
+                                    <literal class="Integer" value="42"/>
+                                </expr>
+                            </assign>
+                        </block>
+                    </expr>
+                </assign>
+                <assign order="2">
+                    <var name="_"/>
+                    <expr>
+                        <send selector="ifTrue:ifFalse:">
+                            <arg order="1">
+                                <expr>
+                                    <block arity="0">
+                                        <assign order="1">
+                                            <var name="_"/>
+                                            <expr>
+                                                <send selector="print">
+                                                    <expr>
+                                                        <literal class="String" value="ANO"/>
+                                                    </expr>
+                                                </send>
+                                            </expr>
+                                        </assign>
+                                    </block>
+                                </expr>
+                            </arg>
+                            <arg order="2">
+                                <expr>
+                                    <block arity="0">
+                                        <assign order="1">
+                                            <var name="_"/>
+                                            <expr>
+                                                <send selector="print">
+                                                    <expr>
+                                                        <literal class="String" value="NE"/>
+                                                    </expr>
+                                                </send>
+                                            </expr>
+                                        </assign>
+                                    </block>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <send selector="isBlock">
+                                    <expr>
+                                        <var name="a"/>
+                                    </expr>
+                                </send>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+</program>
+""".lstrip()
+
+    expected_output = "ANO"
+
+    # Optional user input file (can be empty or contain user input)
+    input_file = tmp_path / "input.txt"
+    input_file.write_text("")  # Empty for this test
+
+    run_test(str(input_file), input_text, expected_output)
+
+
+def test_True_equality(tmp_path):
 # class Main : Object {
 #     run [|
 #         x := True new. 
@@ -1576,7 +1668,7 @@ def test_string_as_int(tmp_path):
 
 
 
-def test_(tmp_path):
+def test_concatenate(tmp_path):
 # class Main : Object {
 #     run [|
 #         x := String from: '5'.

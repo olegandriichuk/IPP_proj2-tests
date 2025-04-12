@@ -661,7 +661,6 @@ def test_method_redefinition(tmp_path):
 
 
 
-
 def test_factorial(tmp_path):
 # class Factorial : Integer {
 #     factorial
@@ -1119,7 +1118,7 @@ def test_wrong_assign_order(tmp_path):
 #     run
 #     [ |
 #         x := 3.
-#         x := x plus: 1.
+#         x := x plus: 2.
 #         x := x multiplyBy: 4.
 #         _ := (x asString) print. 
 #     ]

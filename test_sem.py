@@ -574,3 +574,156 @@ def test_zero_division(tmp_path):
     input_file.write_text("")  # Empty for this test
 
     run_sem_test(str(input_file), input_text, expected_code)
+
+
+def test_wrong_argument_value(tmp_path):
+# class Main : Object {
+#     run [|
+#         x := Integer from: 3.
+#         y := String from: 'ahoj'.
+
+#         x := x plus: y.
+#     ]
+# }
+
+    input_text = """
+<?xml version="1.0" encoding="UTF-8"?>
+<program language="SOL25">
+    <class name="Main" parent="Object">
+        <method selector="run">
+            <block arity="0">
+                <assign order="1">
+                    <var name="x"/>
+                    <expr>
+                        <send selector="from:">
+                            <arg order="1">
+                                <expr>
+                                    <literal class="Integer" value="3"/>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <literal class="class" value="Integer"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="2">
+                    <var name="y"/>
+                    <expr>
+                        <send selector="from:">
+                            <arg order="1">
+                                <expr>
+                                    <literal class="String" value="ahoj"/>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <literal class="class" value="String"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="3">
+                    <var name="x"/>
+                    <expr>
+                        <send selector="plus:">
+                            <arg order="1">
+                                <expr>
+                                    <var name="y"/>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <var name="x"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+</program>
+""".lstrip()
+
+    expected_code = 53
+
+    # Optional user input file (can be empty or contain user input)
+    input_file = tmp_path / "input.txt"
+    input_file.write_text("")  # Empty for this test
+
+    run_sem_test(str(input_file), input_text, expected_code)
+
+
+def test_wrong_argument_value2(tmp_path):
+# class Main : Object {
+#     run [|
+#         x := Integer from: 3.
+#         y := String from: '2'.
+
+#         x := x plus: y.
+#     ]
+# }
+
+    input_text = """
+<?xml version="1.0" encoding="UTF-8"?>
+<program language="SOL25">
+    <class name="Main" parent="Object">
+        <method selector="run">
+            <block arity="0">
+                <assign order="1">
+                    <var name="x"/>
+                    <expr>
+                        <send selector="from:">
+                            <arg order="1">
+                                <expr>
+                                    <literal class="Integer" value="3"/>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <literal class="class" value="Integer"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="2">
+                    <var name="y"/>
+                    <expr>
+                        <send selector="from:">
+                            <arg order="1">
+                                <expr>
+                                    <literal class="String" value="2"/>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <literal class="class" value="String"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="3">
+                    <var name="x"/>
+                    <expr>
+                        <send selector="plus:">
+                            <arg order="1">
+                                <expr>
+                                    <var name="y"/>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <var name="x"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+</program>
+""".lstrip()
+
+    expected_code = 53
+
+    # Optional user input file (can be empty or contain user input)
+    input_file = tmp_path / "input.txt"
+    input_file.write_text("")  # Empty for this test
+
+    run_sem_test(str(input_file), input_text, expected_code)
+

@@ -2755,6 +2755,192 @@ def test_transitive_inheritance(tmp_path):
     run_test(str(input_file), input_text, expected_output)
 
 
+def test_short_circuit_evaluation(tmp_path):
+# class Main : Object {
+#     run [|
+#         x := True new.
+#         y := False new.
+#         w := Object new.
+
+#         z := x or: w.
+#         u := y and: w.
+
+#         _ := z
+#         ifTrue: [| _ := 'ANO ' print.]
+#         ifFalse: [| _ := 'NE ' print.].
+
+#         _ := u
+#         ifTrue: [| _ := 'ANO' print.]
+#         ifFalse: [| _ := 'NE' print.].
+#     ]
+# }
+
+    input_text = """
+<?xml version="1.0" encoding="UTF-8"?>
+<program language="SOL25">
+    <class name="Main" parent="Object">
+        <method selector="run">
+            <block arity="0">
+                <assign order="1">
+                    <var name="x"/>
+                    <expr>
+                        <send selector="new">
+                            <expr>
+                                <literal class="class" value="True"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="2">
+                    <var name="y"/>
+                    <expr>
+                        <send selector="new">
+                            <expr>
+                                <literal class="class" value="False"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="3">
+                    <var name="w"/>
+                    <expr>
+                        <send selector="new">
+                            <expr>
+                                <literal class="class" value="Object"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="4">
+                    <var name="z"/>
+                    <expr>
+                        <send selector="or:">
+                            <arg order="1">
+                                <expr>
+                                    <var name="w"/>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <var name="x"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="5">
+                    <var name="u"/>
+                    <expr>
+                        <send selector="and:">
+                            <arg order="1">
+                                <expr>
+                                    <var name="w"/>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <var name="y"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="6">
+                    <var name="_"/>
+                    <expr>
+                        <send selector="ifTrue:ifFalse:">
+                            <arg order="1">
+                                <expr>
+                                    <block arity="0">
+                                        <assign order="1">
+                                            <var name="_"/>
+                                            <expr>
+                                                <send selector="print">
+                                                    <expr>
+                                                        <literal class="String" value="ANO "/>
+                                                    </expr>
+                                                </send>
+                                            </expr>
+                                        </assign>
+                                    </block>
+                                </expr>
+                            </arg>
+                            <arg order="2">
+                                <expr>
+                                    <block arity="0">
+                                        <assign order="1">
+                                            <var name="_"/>
+                                            <expr>
+                                                <send selector="print">
+                                                    <expr>
+                                                        <literal class="String" value="NE "/>
+                                                    </expr>
+                                                </send>
+                                            </expr>
+                                        </assign>
+                                    </block>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <var name="z"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="7">
+                    <var name="_"/>
+                    <expr>
+                        <send selector="ifTrue:ifFalse:">
+                            <arg order="1">
+                                <expr>
+                                    <block arity="0">
+                                        <assign order="1">
+                                            <var name="_"/>
+                                            <expr>
+                                                <send selector="print">
+                                                    <expr>
+                                                        <literal class="String" value="ANO"/>
+                                                    </expr>
+                                                </send>
+                                            </expr>
+                                        </assign>
+                                    </block>
+                                </expr>
+                            </arg>
+                            <arg order="2">
+                                <expr>
+                                    <block arity="0">
+                                        <assign order="1">
+                                            <var name="_"/>
+                                            <expr>
+                                                <send selector="print">
+                                                    <expr>
+                                                        <literal class="String" value="NE"/>
+                                                    </expr>
+                                                </send>
+                                            </expr>
+                                        </assign>
+                                    </block>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <var name="u"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+</program>
+""".lstrip()
+
+    expected_output = "ANO NE"
+
+    # Optional user input file (can be empty or contain user input)
+    input_file = tmp_path / "input.txt"
+    input_file.write_text("")  # Empty for this test
+
+    run_test(str(input_file), input_text, expected_output)
+
+
+
 def test_example_simplified(tmp_path):
 # class Main : Object {
 #     run

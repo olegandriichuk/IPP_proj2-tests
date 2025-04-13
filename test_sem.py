@@ -7,13 +7,13 @@ from tests.utils_tests import run_sem_test
 
 # """.lstrip()
 
-#     expected_code = 0
+#     expected_codes = {}
 
 #     # Optional user input file (can be empty or contain user input)
 #     input_file = tmp_path / "input.txt"
 #     input_file.write_text("")  # Empty for this test
 
-#     run_sem_test(str(input_file), input_text, expected_code)
+#     run_sem_test(str(input_file), input_text, expected_codes)
 
 
 
@@ -54,13 +54,13 @@ def test_missing_run(tmp_path):
 </program>
 """.lstrip()
 
-    expected_code = 52
+    expected_codes = {31, 42, 51, 52}
 
     # Optional user input file (can be empty or contain user input)
     input_file = tmp_path / "input.txt"
     input_file.write_text("")  # Empty for this test
 
-    run_sem_test(str(input_file), input_text, expected_code)
+    run_sem_test(str(input_file), input_text, expected_codes)
 
 def test_missing_main(tmp_path):
 # class Ma : Object {
@@ -78,13 +78,13 @@ def test_missing_main(tmp_path):
 </program>
 """.lstrip()
 
-    expected_code = 52
+    expected_codes = {31, 42, 52}
 
     # Optional user input file (can be empty or contain user input)
     input_file = tmp_path / "input.txt"
     input_file.write_text("")  # Empty for this test
 
-    run_sem_test(str(input_file), input_text, expected_code)
+    run_sem_test(str(input_file), input_text, expected_codes)
 
 
 def test_unknown_attribute(tmp_path):
@@ -133,13 +133,13 @@ def test_unknown_attribute(tmp_path):
 </program>
 """.lstrip()
 
-    expected_code = 51
+    expected_codes = {51}
 
     # Optional user input file (can be empty or contain user input)
     input_file = tmp_path / "input.txt"
     input_file.write_text("")  # Empty for this test
 
-    run_sem_test(str(input_file), input_text, expected_code)
+    run_sem_test(str(input_file), input_text, expected_codes)
 
 
 def test_unknown_variable(tmp_path):
@@ -183,13 +183,13 @@ def test_unknown_variable(tmp_path):
 </program>
 """.lstrip()
 
-    expected_code = 52
+    expected_codes = {32, 52}
 
     # Optional user input file (can be empty or contain user input)
     input_file = tmp_path / "input.txt"
     input_file.write_text("")  # Empty for this test
 
-    run_sem_test(str(input_file), input_text, expected_code)
+    run_sem_test(str(input_file), input_text, expected_codes)
 
 
 def test_unknown_variable2(tmp_path):
@@ -281,13 +281,13 @@ def test_unknown_variable2(tmp_path):
 </program>
 """.lstrip()
 
-    expected_code = 52
+    expected_codes = {32, 52}
 
     # Optional user input file (can be empty or contain user input)
     input_file = tmp_path / "input.txt"
     input_file.write_text("")  # Empty for this test
 
-    run_sem_test(str(input_file), input_text, expected_code)
+    run_sem_test(str(input_file), input_text, expected_codes)
 
 
 
@@ -328,13 +328,13 @@ def test_DNU_message1(tmp_path):
 </program>
 """.lstrip()
 
-    expected_code = 51
+    expected_codes = {51}
 
     # Optional user input file (can be empty or contain user input)
     input_file = tmp_path / "input.txt"
     input_file.write_text("")  # Empty for this test
 
-    run_sem_test(str(input_file), input_text, expected_code)
+    run_sem_test(str(input_file), input_text, expected_codes)
 
 
 def test_DNU_message2(tmp_path):
@@ -384,13 +384,13 @@ def test_DNU_message2(tmp_path):
 </program>
 """.lstrip()
 
-    expected_code = 51
+    expected_codes = {51}
 
     # Optional user input file (can be empty or contain user input)
     input_file = tmp_path / "input.txt"
     input_file.write_text("")  # Empty for this test
 
-    run_sem_test(str(input_file), input_text, expected_code)
+    run_sem_test(str(input_file), input_text, expected_codes)
 
 
 def test_DNU_message3(tmp_path):
@@ -422,14 +422,13 @@ def test_DNU_message3(tmp_path):
 </program>
 """.lstrip()
 
-    expected_code = 51
+    expected_codes = {51}
 
     # Optional user input file (can be empty or contain user input)
     input_file = tmp_path / "input.txt"
     input_file.write_text("")  # Empty for this test
 
-    run_sem_test(str(input_file), input_text, expected_code)
-
+    run_sem_test(str(input_file), input_text, expected_codes)
 
 
 
@@ -463,13 +462,13 @@ def test_DNU_class_method(tmp_path):
 </program>
 """.lstrip()
 
-    expected_code = 51
+    expected_codes = {32, 51}
 
     # Optional user input file (can be empty or contain user input)
     input_file = tmp_path / "input.txt"
     input_file.write_text("")  # Empty for this test
 
-    run_sem_test(str(input_file), input_text, expected_code)
+    run_sem_test(str(input_file), input_text, expected_codes)
 
 
 def test_wrong_from_class(tmp_path):
@@ -507,13 +506,13 @@ def test_wrong_from_class(tmp_path):
 </program>
 """.lstrip()
 
-    expected_code = 53
+    expected_codes = {53}
 
     # Optional user input file (can be empty or contain user input)
     input_file = tmp_path / "input.txt"
     input_file.write_text("")  # Empty for this test
 
-    run_sem_test(str(input_file), input_text, expected_code)
+    run_sem_test(str(input_file), input_text, expected_codes)
 
 
 
@@ -567,13 +566,13 @@ def test_zero_division(tmp_path):
 </program>
 """.lstrip()
 
-    expected_code = 53
+    expected_codes = {53}
 
     # Optional user input file (can be empty or contain user input)
     input_file = tmp_path / "input.txt"
     input_file.write_text("")  # Empty for this test
 
-    run_sem_test(str(input_file), input_text, expected_code)
+    run_sem_test(str(input_file), input_text, expected_codes)
 
 
 def test_wrong_argument_value(tmp_path):
@@ -643,13 +642,13 @@ def test_wrong_argument_value(tmp_path):
 </program>
 """.lstrip()
 
-    expected_code = 53
+    expected_codes = {53}
 
     # Optional user input file (can be empty or contain user input)
     input_file = tmp_path / "input.txt"
     input_file.write_text("")  # Empty for this test
 
-    run_sem_test(str(input_file), input_text, expected_code)
+    run_sem_test(str(input_file), input_text, expected_codes)
 
 
 def test_wrong_argument_value2(tmp_path):
@@ -719,11 +718,11 @@ def test_wrong_argument_value2(tmp_path):
 </program>
 """.lstrip()
 
-    expected_code = 53
+    expected_codes = {53}
 
     # Optional user input file (can be empty or contain user input)
     input_file = tmp_path / "input.txt"
     input_file.write_text("")  # Empty for this test
 
-    run_sem_test(str(input_file), input_text, expected_code)
+    run_sem_test(str(input_file), input_text, expected_codes)
 

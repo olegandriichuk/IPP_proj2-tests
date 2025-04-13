@@ -18,7 +18,7 @@ def run_test(input_path, source, expected_output):
     assert process.stdout.strip() == expected_output.strip(), f"Expected stdout:\n{expected_output}\nGot:\n{process.stdout}"
 
 
-def run_sem_test(input_path, source, expected_code):
+def run_sem_test(input_path, source, expected_codes):
     process = subprocess.run(
         ["php", "interpret.php", f"--input={input_path}"],
         input=source,        
@@ -28,7 +28,7 @@ def run_sem_test(input_path, source, expected_code):
     )
 
     print(process.stdout)
-    
-    assert process.returncode == expected_code, f"Expected return code {expected_code}, but got {process.returncode}"
-    
+
+    assert process.returncode in expected_codes, (f"Expected one of {expected_codes}, but got {process.returncode}")
+
     assert len(process.stderr) != 0

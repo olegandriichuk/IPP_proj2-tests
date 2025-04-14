@@ -2940,6 +2940,119 @@ def test_short_circuit_evaluation(tmp_path):
     run_test(str(input_file), input_text, expected_output)
 
 
+def test_block_triple_value(tmp_path):
+# class Main : Object {
+# run [|
+#         a := [ :x:y:z |
+#                 u := x plus: y.
+#                 u := u plus: z. 
+#         ].
+
+#         b := a value: 13 value: 42 value: 10.
+#         _ := (b asString) print.
+#     ]
+# }
+
+    input_text = """
+<?xml version="1.0" encoding="UTF-8"?>
+<program language="SOL25">
+    <class name="Main" parent="Object">
+        <method selector="run">
+            <block arity="0">
+                <assign order="1">
+                    <var name="a"/>
+                    <expr>
+                        <block arity="3">
+                            <parameter order="1" name="x"/>
+                            <parameter order="2" name="y"/>
+                            <parameter order="3" name="z"/>
+                            <assign order="1">
+                                <var name="u"/>
+                                <expr>
+                                    <send selector="plus:">
+                                        <arg order="1">
+                                            <expr>
+                                                <var name="y"/>
+                                            </expr>
+                                        </arg>
+                                        <expr>
+                                            <var name="x"/>
+                                        </expr>
+                                    </send>
+                                </expr>
+                            </assign>
+                            <assign order="2">
+                                <var name="u"/>
+                                <expr>
+                                    <send selector="plus:">
+                                        <arg order="1">
+                                            <expr>
+                                                <var name="z"/>
+                                            </expr>
+                                        </arg>
+                                        <expr>
+                                            <var name="u"/>
+                                        </expr>
+                                    </send>
+                                </expr>
+                            </assign>
+                        </block>
+                    </expr>
+                </assign>
+                <assign order="2">
+                    <var name="b"/>
+                    <expr>
+                        <send selector="value:value:value:">
+                            <arg order="1">
+                                <expr>
+                                    <literal class="Integer" value="13"/>
+                                </expr>
+                            </arg>
+                            <arg order="2">
+                                <expr>
+                                    <literal class="Integer" value="42"/>
+                                </expr>
+                            </arg>
+                            <arg order="3">
+                                <expr>
+                                    <literal class="Integer" value="10"/>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <var name="a"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="3">
+                    <var name="_"/>
+                    <expr>
+                        <send selector="print">
+                            <expr>
+                                <send selector="asString">
+                                    <expr>
+                                        <var name="b"/>
+                                    </expr>
+                                </send>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+</program>
+""".lstrip()
+
+    expected_output = "65"
+
+    # Optional user input file (can be empty or contain user input)
+    input_file = tmp_path / "input.txt"
+    input_file.write_text("")  # Empty for this test
+
+    run_test(str(input_file), input_text, expected_output)
+
+
 
 def test_example_simplified(tmp_path):
 # class Main : Object {

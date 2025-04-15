@@ -3432,3 +3432,391 @@ def test_example(tmp_path):
 
     run_test(str(input_file), input_text, expected_output)
 
+
+# ************************** TEST BY @alklk *****************************
+ 
+def test_ifTrue_ifFalse(tmp_path):
+# class TrueBlock : Object {
+#   value[|
+#     _ := 'value from true\n' print.
+#   ]
+# }
+
+# class FalseBlock : Object {
+#   value[|
+#     _ := 'value from false\n' print.
+#   ]
+# }
+
+# class Main : Object {
+#   run [|
+#     t := TrueBlock new.
+#     f := FalseBlock new.
+#     _ := true ifTrue: t ifFalse: f.
+#     _ := false ifTrue: t ifFalse: f.
+#   ]
+# }
+    input_text = """
+<?xml version="1.0" encoding="UTF-8"?>
+<program language="SOL25">
+    <class name="TrueBlock" parent="Object">
+        <method selector="value">
+            <block arity="0">
+                <assign order="1">
+                    <var name="_"/>
+                    <expr>
+                        <send selector="print">
+                            <expr>
+                                <literal class="String" value="value from true&#10;"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+    <class name="FalseBlock" parent="Object">
+        <method selector="value">
+            <block arity="0">
+                <assign order="1">
+                    <var name="_"/>
+                    <expr>
+                        <send selector="print">
+                            <expr>
+                                <literal class="String" value="value from false&#10;"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+    <class name="Main" parent="Object">
+        <method selector="run">
+            <block arity="0">
+                <assign order="1">
+                    <var name="t"/>
+                    <expr>
+                        <send selector="new">
+                            <expr>
+                                <literal class="class" value="TrueBlock"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="2">
+                    <var name="f"/>
+                    <expr>
+                        <send selector="new">
+                            <expr>
+                                <literal class="class" value="FalseBlock"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="3">
+                    <var name="_"/>
+                    <expr>
+                        <send selector="ifTrue:ifFalse:">
+                            <arg order="1">
+                                <expr>
+                                    <var name="t"/>
+                                </expr>
+                            </arg>
+                            <arg order="2">
+                                <expr>
+                                    <var name="f"/>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <literal class="True" value="true"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="4">
+                    <var name="_"/>
+                    <expr>
+                        <send selector="ifTrue:ifFalse:">
+                            <arg order="1">
+                                <expr>
+                                    <var name="t"/>
+                                </expr>
+                            </arg>
+                            <arg order="2">
+                                <expr>
+                                    <var name="f"/>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <literal class="False" value="false"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+</program>
+""".lstrip()
+
+    expected_output = "value from true\nvalue from false\n"
+
+    # Optional user input file (can be empty or contain user input)
+    input_file = tmp_path / "input.txt"
+    input_file.write_text("")  # Empty for this test
+
+    run_test(str(input_file), input_text, expected_output)
+
+
+def test_whileTrue(tmp_path):
+# class WhileTrueBlockBase : Block {
+#   init[|
+#     ret := self i: 5.
+#   ]
+
+#   value [|
+#     _ := self i: ((self i) minus: 1).
+#     ret := (self i) greaterThan: 0.
+#   ]
+# }
+
+# class WhileTrueBlock : Object {
+#   value [|
+#     ret := 'ahoj' print.
+#   ]
+# }
+
+# class Main : Object {
+#   run [|
+#     t := WhileTrueBlock new.
+#     b := (WhileTrueBlockBase new) init.
+#     y := b whileTrue: t.
+#   ]
+# }
+    input_text = """
+<?xml version="1.0" encoding="UTF-8"?>
+<program language="SOL25">
+    <class name="WhileTrueBlockBase" parent="Block">
+        <method selector="init">
+            <block arity="0">
+                <assign order="1">
+                    <var name="ret"/>
+                    <expr>
+                        <send selector="i:">
+                            <arg order="1">
+                                <expr>
+                                    <literal class="Integer" value="5"/>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <var name="self"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+        <method selector="value">
+            <block arity="0">
+                <assign order="1">
+                    <var name="_"/>
+                    <expr>
+                        <send selector="i:">
+                            <arg order="1">
+                                <expr>
+                                    <send selector="minus:">
+                                        <arg order="1">
+                                            <expr>
+                                                <literal class="Integer" value="1"/>
+                                            </expr>
+                                        </arg>
+                                        <expr>
+                                            <send selector="i">
+                                                <expr>
+                                                    <var name="self"/>
+                                                </expr>
+                                            </send>
+                                        </expr>
+                                    </send>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <var name="self"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="2">
+                    <var name="ret"/>
+                    <expr>
+                        <send selector="greaterThan:">
+                            <arg order="1">
+                                <expr>
+                                    <literal class="Integer" value="0"/>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <send selector="i">
+                                    <expr>
+                                        <var name="self"/>
+                                    </expr>
+                                </send>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+    <class name="WhileTrueBlock" parent="Object">
+        <method selector="value">
+            <block arity="0">
+                <assign order="1">
+                    <var name="ret"/>
+                    <expr>
+                        <send selector="print">
+                            <expr>
+                                <literal class="String" value="ahoj"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+    <class name="Main" parent="Object">
+        <method selector="run">
+            <block arity="0">
+                <assign order="1">
+                    <var name="t"/>
+                    <expr>
+                        <send selector="new">
+                            <expr>
+                                <literal class="class" value="WhileTrueBlock"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="2">
+                    <var name="b"/>
+                    <expr>
+                        <send selector="init">
+                            <expr>
+                                <send selector="new">
+                                    <expr>
+                                        <literal class="class" value="WhileTrueBlockBase"/>
+                                    </expr>
+                                </send>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="3">
+                    <var name="y"/>
+                    <expr>
+                        <send selector="whileTrue:">
+                            <arg order="1">
+                                <expr>
+                                    <var name="t"/>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <var name="b"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+</program>
+""".lstrip()
+
+    expected_output = "ahojahojahojahoj"
+
+    # Optional user input file (can be empty or contain user input)
+    input_file = tmp_path / "input.txt"
+    input_file.write_text("")  # Empty for this test
+
+    run_test(str(input_file), input_text, expected_output)
+
+
+def test_timesRepeat2(tmp_path):
+# class TimesRepeatBlock : Object {
+#   value: [ :arg |
+#     _ := (arg asString) print.
+#   ]
+# }
+
+# class Main : Object {
+#   run [|
+#     trp := TimesRepeatBlock new.
+#     t := 5 timesRepeat: trp. 
+#   ]
+# }
+    input_text = """
+<?xml version="1.0" encoding="UTF-8"?>
+<program language="SOL25">
+    <class name="TimesRepeatBlock" parent="Object">
+        <method selector="value:">
+            <block arity="1">
+                <parameter order="1" name="arg"/>
+                <assign order="1">
+                    <var name="_"/>
+                    <expr>
+                        <send selector="print">
+                            <expr>
+                                <send selector="asString">
+                                    <expr>
+                                        <var name="arg"/>
+                                    </expr>
+                                </send>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+    <class name="Main" parent="Object">
+        <method selector="run">
+            <block arity="0">
+                <assign order="1">
+                    <var name="trp"/>
+                    <expr>
+                        <send selector="new">
+                            <expr>
+                                <literal class="class" value="TimesRepeatBlock"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="2">
+                    <var name="t"/>
+                    <expr>
+                        <send selector="timesRepeat:">
+                            <arg order="1">
+                                <expr>
+                                    <var name="trp"/>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <literal class="Integer" value="5"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+</program>
+""".lstrip()
+
+    expected_output = "12345"
+
+    # Optional user input file (can be empty or contain user input)
+    input_file = tmp_path / "input.txt"
+    input_file.write_text("")  # Empty for this test
+
+    run_test(str(input_file), input_text, expected_output)

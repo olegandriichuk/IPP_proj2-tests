@@ -3433,7 +3433,7 @@ def test_example(tmp_path):
     run_test(str(input_file), input_text, expected_output)
 
 
-# ************************** TEST BY @alklk *****************************
+# ************************** TESTS BY @alklk *****************************
  
 def test_ifTrue_ifFalse(tmp_path):
 # class TrueBlock : Object {
@@ -3814,6 +3814,299 @@ def test_timesRepeat2(tmp_path):
 """.lstrip()
 
     expected_output = "12345"
+
+    # Optional user input file (can be empty or contain user input)
+    input_file = tmp_path / "input.txt"
+    input_file.write_text("")  # Empty for this test
+
+    run_test(str(input_file), input_text, expected_output)
+
+
+
+# ************* MORE HARDCORE SHIZO TESTS BY @alklk ***************
+
+def test_shizo1(tmp_path):
+# class BlockOne : Block {}
+
+# class BlockTwo : BlockOne {}
+
+# class Main : Object {
+#   run [|
+#     b1 := BlockOne from: [:arg1:arg2 | _ := (arg1 concatenateWith: arg2) print. ].
+#     b2 := BlockTwo from: b1.
+#     _ := b2 value: 'ahoj' value: ', toto je shizo test'.
+#   ]
+# }
+    input_text = """
+<?xml version="1.0" encoding="UTF-8"?>
+<program language="SOL25">
+    <class name="BlockOne" parent="Block"/>
+    <class name="BlockTwo" parent="BlockOne"/>
+    <class name="Main" parent="Object">
+        <method selector="run">
+            <block arity="0">
+                <assign order="1">
+                    <var name="b1"/>
+                    <expr>
+                        <send selector="from:">
+                            <arg order="1">
+                                <expr>
+                                    <block arity="2">
+                                        <parameter order="1" name="arg1"/>
+                                        <parameter order="2" name="arg2"/>
+                                        <assign order="1">
+                                            <var name="_"/>
+                                            <expr>
+                                                <send selector="print">
+                                                    <expr>
+                                                        <send selector="concatenateWith:">
+                                                            <arg order="1">
+                                                                <expr>
+                                                                    <var name="arg2"/>
+                                                                </expr>
+                                                            </arg>
+                                                            <expr>
+                                                                <var name="arg1"/>
+                                                            </expr>
+                                                        </send>
+                                                    </expr>
+                                                </send>
+                                            </expr>
+                                        </assign>
+                                    </block>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <literal class="class" value="BlockOne"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="2">
+                    <var name="b2"/>
+                    <expr>
+                        <send selector="from:">
+                            <arg order="1">
+                                <expr>
+                                    <var name="b1"/>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <literal class="class" value="BlockTwo"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="3">
+                    <var name="_"/>
+                    <expr>
+                        <send selector="value:value:">
+                            <arg order="1">
+                                <expr>
+                                    <literal class="String" value="ahoj"/>
+                                </expr>
+                            </arg>
+                            <arg order="2">
+                                <expr>
+                                    <literal class="String" value=", toto je shizo test"/>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <var name="b2"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+</program>
+""".lstrip()
+
+    expected_output = "ahoj, toto je shizo test"
+
+    # Optional user input file (can be empty or contain user input)
+    input_file = tmp_path / "input.txt"
+    input_file.write_text("")  # Empty for this test
+
+    run_test(str(input_file), input_text, expected_output)
+
+
+def test_shizo2(tmp_path):
+# class Main : Object {
+#   run [|
+#     b := ([:arg1:arg2 |]) value: 'ahoj'.
+#     _ := (b value) print.
+#   ]
+# }
+    input_text = """
+<?xml version="1.0" encoding="UTF-8"?>
+<program language="SOL25">
+    <class name="Main" parent="Object">
+        <method selector="run">
+            <block arity="0">
+                <assign order="1">
+                    <var name="b"/>
+                    <expr>
+                        <send selector="value:">
+                            <arg order="1">
+                                <expr>
+                                    <literal class="String" value="ahoj"/>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <block arity="2">
+                                    <parameter order="1" name="arg1"/>
+                                    <parameter order="2" name="arg2"/>
+                                </block>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="2">
+                    <var name="_"/>
+                    <expr>
+                        <send selector="print">
+                            <expr>
+                                <send selector="value">
+                                    <expr>
+                                        <var name="b"/>
+                                    </expr>
+                                </send>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+</program>
+""".lstrip()
+
+    expected_output = "ahoj"
+
+    # Optional user input file (can be empty or contain user input)
+    input_file = tmp_path / "input.txt"
+    input_file.write_text("")  # Empty for this test
+
+    run_test(str(input_file), input_text, expected_output)
+
+
+def test_shizo3(tmp_path):
+# class Main : Object {
+#   run [|
+#     _ := self b1: [:arg | _ := arg print.].
+#     _ := self b2: [| _ := self b1.].
+#     b3 := [| _ := self b2.].
+#     _ := ((b3 value) value) value: 'ahoj'.
+#   ]
+# }
+    input_text = """
+<?xml version="1.0" encoding="UTF-8"?>
+<program language="SOL25">
+    <class name="Main" parent="Object">
+        <method selector="run">
+            <block arity="0">
+                <assign order="1">
+                    <var name="_"/>
+                    <expr>
+                        <send selector="b1:">
+                            <arg order="1">
+                                <expr>
+                                    <block arity="1">
+                                        <parameter order="1" name="arg"/>
+                                        <assign order="1">
+                                            <var name="_"/>
+                                            <expr>
+                                                <send selector="print">
+                                                    <expr>
+                                                        <var name="arg"/>
+                                                    </expr>
+                                                </send>
+                                            </expr>
+                                        </assign>
+                                    </block>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <var name="self"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="2">
+                    <var name="_"/>
+                    <expr>
+                        <send selector="b2:">
+                            <arg order="1">
+                                <expr>
+                                    <block arity="0">
+                                        <assign order="1">
+                                            <var name="_"/>
+                                            <expr>
+                                                <send selector="b1">
+                                                    <expr>
+                                                        <var name="self"/>
+                                                    </expr>
+                                                </send>
+                                            </expr>
+                                        </assign>
+                                    </block>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <var name="self"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+                <assign order="3">
+                    <var name="b3"/>
+                    <expr>
+                        <block arity="0">
+                            <assign order="1">
+                                <var name="_"/>
+                                <expr>
+                                    <send selector="b2">
+                                        <expr>
+                                            <var name="self"/>
+                                        </expr>
+                                    </send>
+                                </expr>
+                            </assign>
+                        </block>
+                    </expr>
+                </assign>
+                <assign order="4">
+                    <var name="_"/>
+                    <expr>
+                        <send selector="value:">
+                            <arg order="1">
+                                <expr>
+                                    <literal class="String" value="ahoj"/>
+                                </expr>
+                            </arg>
+                            <expr>
+                                <send selector="value">
+                                    <expr>
+                                        <send selector="value">
+                                            <expr>
+                                                <var name="b3"/>
+                                            </expr>
+                                        </send>
+                                    </expr>
+                                </send>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+</program>
+""".lstrip()
+
+    expected_output = "ahoj"
 
     # Optional user input file (can be empty or contain user input)
     input_file = tmp_path / "input.txt"

@@ -3433,6 +3433,159 @@ def test_example(tmp_path):
     run_test(str(input_file), input_text, expected_output)
 
 
+def test_escape_seq1(tmp_path):
+# class Main : Object {
+#   run [|
+#     _ := 'Ahoj\nahoj' print.
+#   ]
+# }
+
+    input_text = """
+<?xml version="1.0" encoding="UTF-8"?>
+<program language="SOL25">
+    <class name="Main" parent="Object">
+        <method selector="run">
+            <block arity="0">
+                <assign order="1">
+                    <var name="_"/>
+                    <expr>
+                        <send selector="print">
+                            <expr>
+                                <literal class="String" value="Ahoj\\nahoj"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+</program>
+""".lstrip()
+
+    expected_output = "Ahoj\nahoj"
+
+    # Optional user input file (can be empty or contain user input)
+    input_file = tmp_path / "input.txt"
+    input_file.write_text("")  # Empty for this test
+
+    run_test(str(input_file), input_text, expected_output)
+
+
+def test_escape_seq2(tmp_path):
+# class Main : Object {
+#   run [|
+#     _ := 'Ahoj\\ahoj' print.
+#   ]
+# }
+
+    input_text = """
+<?xml version="1.0" encoding="UTF-8"?>
+<program language="SOL25">
+    <class name="Main" parent="Object">
+        <method selector="run">
+            <block arity="0">
+                <assign order="1">
+                    <var name="_"/>
+                    <expr>
+                        <send selector="print">
+                            <expr>
+                                <literal class="String" value="Ahoj\\\\ahoj"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+</program>
+""".lstrip()
+
+    expected_output = "Ahoj\\ahoj"
+
+    # Optional user input file (can be empty or contain user input)
+    input_file = tmp_path / "input.txt"
+    input_file.write_text("")  # Empty for this test
+
+    run_test(str(input_file), input_text, expected_output)
+
+
+def test_escape_seq3(tmp_path):
+# class Main : Object {
+#   run [|
+#     _ := 'Ahoj\'ahoj' print.
+#   ]
+# }
+
+    input_text = """
+<?xml version="1.0" encoding="UTF-8"?>
+<program language="SOL25">
+    <class name="Main" parent="Object">
+        <method selector="run">
+            <block arity="0">
+                <assign order="1">
+                    <var name="_"/>
+                    <expr>
+                        <send selector="print">
+                            <expr>
+                                <literal class="String" value="Ahoj\\'ahoj"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+</program>
+""".lstrip()
+
+    expected_output = "Ahoj'ahoj"
+
+    # Optional user input file (can be empty or contain user input)
+    input_file = tmp_path / "input.txt"
+    input_file.write_text("")  # Empty for this test
+
+    run_test(str(input_file), input_text, expected_output)
+
+
+def test_escape_seq4(tmp_path):
+# class Main : Object {
+#   run [|
+#     _ := 'Ahoj\n\'Sve"te \\\'' print.
+#   ]
+# }
+
+    input_text = """
+<?xml version="1.0" encoding="UTF-8"?>
+<program language="SOL25">
+    <class name="Main" parent="Object">
+        <method selector="run">
+            <block arity="0">
+                <assign order="1">
+                    <var name="_"/>
+                    <expr>
+                        <send selector="print">
+                            <expr>
+                                <literal class="String" value="Ahoj\\n\\'Sve&quot;te \\\\\\'"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+</program>
+""".lstrip()
+
+    expected_output = "Ahoj\n'Sve\"te \\'"
+
+    # Optional user input file (can be empty or contain user input)
+    input_file = tmp_path / "input.txt"
+    input_file.write_text("")  # Empty for this test
+
+    run_test(str(input_file), input_text, expected_output)
+
+
+
 # ************************** TESTS BY @alklk *****************************
  
 def test_ifTrue_ifFalse(tmp_path):
@@ -3467,7 +3620,7 @@ def test_ifTrue_ifFalse(tmp_path):
                     <expr>
                         <send selector="print">
                             <expr>
-                                <literal class="String" value="value from true&#10;"/>
+                                <literal class="String" value="value from true\\n"/>
                             </expr>
                         </send>
                     </expr>
@@ -3483,7 +3636,7 @@ def test_ifTrue_ifFalse(tmp_path):
                     <expr>
                         <send selector="print">
                             <expr>
-                                <literal class="String" value="value from false&#10;"/>
+                                <literal class="String" value="value from false\\n"/>
                             </expr>
                         </send>
                     </expr>

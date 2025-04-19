@@ -557,6 +557,66 @@ def test_block_result(tmp_path):
     run_test(str(input_file), input_text, expected_output)
 
 
+def test_block_skip_def(tmp_path):
+# class Main : Object {
+# run [|
+#     a := [ | _ := (8 asString) print. ].
+#     c := a value.
+#   ]
+# }
+
+    input_text = """
+<?xml version="1.0" encoding="UTF-8"?>
+<program language="SOL25">
+    <class name="Main" parent="Object">
+        <method selector="run">
+            <block arity="0">
+                <assign order="1">
+                    <var name="a"/>
+                    <expr>
+                        <block arity="0">
+                            <assign order="1">
+                                <var name="_"/>
+                                <expr>
+                                    <send selector="print">
+                                        <expr>
+                                            <send selector="asString">
+                                                <expr>
+                                                    <literal class="Integer" value="8"/>
+                                                </expr>
+                                            </send>
+                                        </expr>
+                                    </send>
+                                </expr>
+                            </assign>
+                        </block>
+                    </expr>
+                </assign>
+                <assign order="2">
+                    <var name="c"/>
+                    <expr>
+                        <send selector="value">
+                            <expr>
+                                <var name="a"/>
+                            </expr>
+                        </send>
+                    </expr>
+                </assign>
+            </block>
+        </method>
+    </class>
+</program>
+""".lstrip()
+
+    expected_output = "8"
+
+    # Optional user input file (can be empty or contain user input)
+    input_file = tmp_path / "input.txt"
+    input_file.write_text("")  # Empty for this test
+
+    run_test(str(input_file), input_text, expected_output)
+
+
 def test_method_redefinition(tmp_path):
 # class Main : Object {
 #     run

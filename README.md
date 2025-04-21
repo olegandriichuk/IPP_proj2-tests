@@ -1,30 +1,42 @@
 # IPP project 2 tests
 ## Usage:
+Run all tests:
 ```
 pytest
-pytest tests/test_valid.py [test_sem.py | test_builtin.py]
 ```
+If it takes too long, try specifying the path:
+```
+pytest tests/
+```
+Run only specific test(s):
+```
+pytest tests/test_valid.py
+pytest tests/test_valid.py::test_basic_output
+```
+
 ## Before download:
+**Remove remote** connection to ipp-core repo first or clone as **submodule**.
 ```
-# Remove remote connection to ipp-core repo first.
 git remote remove origin
 # (^^ in ipp-core dir)
 ```
 ## Download:
+Download **into ipp-core**, **NOT** student/
 ```
-# Download into ipp-core, NOT student/
 git clone git@github.com:Kubikuli/IPP_proj2-tests.git tests
 ```
 ## Setup:
+Create virtual environment (if you dont have one yet) and download dependencies
 ```
-# in root dir
-python -m venv .venv # create virtual environment if you don't have one yet
+# in ipp-core dir
+python -m venv .venv
 source .venv/bin/activate
-pip install -r tests/requirements.txt # install required packages
+pip install -r tests/requirements.txt
 ```
 ## Update:
 ```
-git pull # in tests directory
+# in tests directory
+git pull
 ```
 ## Notes:
 Tag or DM me if you see any issues. (@Kubikuli)  

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PhpIncludePathManager">
+    <include_path>
+      <path value="$PROJECT_DIR$/ipp-core/vendor/squizlabs/php_codesniffer" />
+      <path value="$PROJECT_DIR$/ipp-core/vendor/spaze/phpstan-disallowed-calls" />
+      <path value="$PROJECT_DIR$/ipp-core/vendor/phpstan/phpstan" />
+      <path value="$PROJECT_DIR$/ipp-core/vendor/composer" />
+    </include_path>
+  </component>
+  <component name="PhpProjectSharedConfiguration" php_language_level="8.0" />
+</project>

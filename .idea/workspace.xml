@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="6eef7fdb-55e4-422e-8f14-f8b30f626367" name="Changes" comment="adding starting logic to handle xml errors" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
+    <pharConfigPath>$PROJECT_DIR$/ipp-core/composer.json</pharConfigPath>
+    <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/ipp-core" />
+    <option name="ROOT_SYNC" value="SYNC" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;olegandriichuk&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/olegandriichuk/Projekt---2.-v-PHP-8.4-.git&quot;,
+    &quot;accountId&quot;: &quot;11bbc54b-967a-4b81-b04b-95a405b8b615&quot;
+  }
+}</component>
+  <component name="PhpDebugGeneral" listening_started="true" />
+  <component name="PhpWebServerValidation" path_to_validation_script="C:\Users\Олег\PhpstormProjects\Projekt---2.-v-PHP-8.4-" selected_validation_type="LOCAL" web_path_to_validation_script="http://127.0.0.1/" />
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="C:\Users\Олег\PhpstormProjects\php\php.exe">
+    <include_path>
+      <path value="$PROJECT_DIR$/ipp-core/vendor/squizlabs/php_codesniffer" />
+      <path value="$PROJECT_DIR$/ipp-core/vendor/spaze/phpstan-disallowed-calls" />
+      <path value="$PROJECT_DIR$/ipp-core/vendor/phpstan/phpstan" />
+      <path value="$PROJECT_DIR$/ipp-core/vendor/composer" />
+    </include_path>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="2vmf4OWS6pLa3PdoW8TbiZud06m" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "PHP Script.Lexer.php.executor": "Debug",
+    "PHP Script.Program.php.executor": "Debug",
+    "PHP Script.Unnamed.executor": "Debug",
+    "PHP Script.XMLProcessing.php.executor": "Debug",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs.cucumber.cucumber_node_package_dir": "",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "reference.webide.settings.project.settings.php.debug",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Олег\PhpstormProjects\Projekt---2.-v-PHP-8.4-\ipp-core" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Unnamed" type="PhpLocalRunConfigurationType" factoryName="PHP Console" nameIsGenerated="true" path="$PROJECT_DIR$/ipp-core/interpret.php" scriptParameters="--source=test.xml">
+      <CommandLine>
+        <PhpTestInterpreterSettings>
+          <option name="interpreterName" value="C:\Users\Олег\PhpstormProjects\php\php.exe" />
+        </PhpTestInterpreterSettings>
+      </CommandLine>
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-PS-243.26053.13" />
+        <option value="bundled-php-predefined-a98d8de5180a-1ec7b7818973-com.jetbrains.php.sharedIndexes-PS-243.26053.13" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6eef7fdb-55e4-422e-8f14-f8b30f626367" name="Changes" comment="" />
+      <created>1744754978591</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1744754978591</updated>
+      <workItem from="1744754980113" duration="822000" />
+      <workItem from="1745154488950" duration="9414000" />
+      <workItem from="1745188447549" duration="74000" />
+      <workItem from="1745188534303" duration="292000" />
+      <workItem from="1745188840840" duration="320000" />
+      <workItem from="1745189174574" duration="401000" />
+      <workItem from="1745189633745" duration="1224000" />
+      <workItem from="1745191236922" duration="129000" />
+      <workItem from="1745191378035" duration="599000" />
+      <workItem from="1745191995997" duration="590000" />
+      <workItem from="1745233293968" duration="18123000" />
+      <workItem from="1745255303749" duration="383000" />
+      <workItem from="1745255704400" duration="13016000" />
+    </task>
+    <task id="LOCAL-00001" summary="adding starting logic to handle xml errors">
+      <option name="closed" value="true" />
+      <created>1745274305382</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1745274305382</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="adding starting logic to handle xml errors" />
+    <option name="LAST_COMMIT_MESSAGE" value="adding starting logic to handle xml errors" />
+  </component>
+</project>
